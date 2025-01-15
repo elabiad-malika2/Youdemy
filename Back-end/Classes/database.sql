@@ -46,3 +46,4 @@ CREATE TABLE IF NOT EXISTS  etudiant_cours(
     FOREIGN KEY (cours_id) REFERENCES Cours(id),
     FOREIGN KEY (etudiant_id) REFERENCES user(id)
 );
+alter table cours add column image text ;
