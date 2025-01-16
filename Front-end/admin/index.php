@@ -1,3 +1,9 @@
+<?php
+require_once('../../Back-end/Classes/Tag.php');
+
+$tags = Tag::afficherTags();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -186,38 +192,44 @@
         <!-- Bulk Tags Management -->
         <div class="bg-white rounded-lg shadow-sm border border-blue-100 p-6">
             <h2 class="text-xl font-bold text-gray-800 mb-4">Bulk Tags Management</h2>
-            <div id="tag-inputs" class="space-y-2">
-                <textarea 
-                    placeholder="Enter tag " 
-                    class="w-full h-32 p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-400"
-                ></textarea>
-            </div>
-            <div class="flex space-x-4 mt-4">
-                <button class="w-full px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500">
-                    Add Tags
-                </button>
-                <button id="add-tag-input" class="w-full px-4 py-2 border border-blue-400 text-blue-400 rounded-lg hover:bg-blue-50">
-                    Add Another Tag
-                </button>
-            </div>
+            <form id="tag-form" method="POST" action="../../Back-end/Actions/Tag/Ajouter.php">
+                <div id="tag-inputs" class="space-y-2">
+                    <input 
+                        type="text"
+                        name="tags[]"
+                        placeholder="Enter tag " 
+                        class="w-full h-20 p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-400"
+                    >
+                </div>
+                <div class="flex space-x-4 mt-4">
+                    <button type ='submit' class="w-full px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500">
+                        Add Tags
+                    </button>
+                    <button type='button' id="add-tag-input" class="w-full px-4 py-2 border border-blue-400 text-blue-400 rounded-lg hover:bg-blue-50">
+                        Add Another Tag
+                    </button>
+                </div>
+            </form>
             <div id="tag-list" class="mt-4 flex flex-wrap gap-2">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center">
-                    Web Development
-                    <button class="ml-2 text-blue-600 hover:text-blue-800">×</button>
-                </span>
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center">
-                    JavaScript
-                    <button class="ml-2 text-blue-600 hover:text-blue-800">×</button>
-                </span>
+                <?php
+                    foreach ($tags as $tag) {
+                        echo "<span class='px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center'>#{$tag->getTitre()}
+                                <button class='ml-2 text-blue-600 hover:text-blue-800'>×</button>
+                            </span>";
+                    }
+                ?>
             </div>
         </div>
+        
 
     </main>
     <script>
         document.getElementById('add-tag-input').addEventListener('click', function() {
-            const newInput = document.createElement('textarea');
+            const newInput = document.createElement('input');
+            newInput.name = "tags[]";
+            newInput.type = "text";
             newInput.placeholder = "Enter another tag";
-            newInput.className = "w-full h-32 p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-400";
+            newInput.className = "w-full h-20 p-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-400";
             document.getElementById('tag-inputs').appendChild(newInput);
         });
     </script>

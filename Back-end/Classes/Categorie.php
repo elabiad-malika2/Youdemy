@@ -30,7 +30,15 @@ class Categorie {
     public function ajouterCategorie(){
         $pdo = Database::getInstance()->getConnection();
         $stm=$pdo->prepare("INSERT into Categorie (titre,description) values (:titre,:description)");
-        $stm->bindParam(":titre",$this->titre,PDO::);
+        $stm->bindParam(":titre",$this->titre,PDO::PARAMA_STR);
+        $stm->bindParam(":description",$this->description,PDO::PARAMA_STR);
+        $resultat=$stm->execute();
+        if ($resultat) {
+            $this->id=$pdo->lastInsertId();
+            return true;
+        }else {
+            return false ;
+        }
     }
 
 }
