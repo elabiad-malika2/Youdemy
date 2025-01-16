@@ -1,10 +1,10 @@
 CREATE DATABASE youdemy;
 USE youdemy;
-CREATE TABLE IF NOT EXISTS Tag(
+CREATE TABLE Tag(
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(50)
 );
-CREATE TABLE IF NOT EXISTS  user (
+CREATE TABLE  user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) ,
     fullName VARCHAR(255),
@@ -13,12 +13,12 @@ CREATE TABLE IF NOT EXISTS  user (
     banned boolean DEFAULT false,
     active boolean DEFAULT true
 );
-CREATE TABLE IF NOT EXISTS  Categorie(
+CREATE TABLE  Categorie(
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(50),
     description TEXT NOT NULL
 );
-CREATE TABLE IF NOT EXISTS  cours (
+CREATE TABLE  cours (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS  cours (
     FOREIGN KEY (categorie_id) REFERENCES Categorie(id),
     FOREIGN KEY (enseignant_id) REFERENCES User(id)
 );
-CREATE TABLE IF NOT EXISTS  cours_tag(
+CREATE TABLE  cours_tag(
     id INT AUTO_INCREMENT PRIMARY KEY,
     cours_id INT,
     tag_id INT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS  cours_tag(
     FOREIGN KEY (tag_id) REFERENCES Tag(id)
 
 );
-CREATE TABLE IF NOT EXISTS  etudiant_cours(
+CREATE TABLE  etudiant_cours(
     id INT AUTO_INCREMENT PRIMARY KEY,
     cours_id INT,
     etudiant_id INT,

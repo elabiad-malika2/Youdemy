@@ -1,42 +1,60 @@
+
 <?php
-require_once("connection.php");
-require_once("Cours.php");
-class CoursText extends Cours{
-    public function __construct($id=null,$titre=null,$description=null,$id_categorie=null,$id_enseignant=null,$image=null,$contenue=null,$type=null)
+require_once 'Cours.php';
+require_once 'Connection.php';
+class coursTexte extends Cours{
+    private $contenue;
+
+    public function __construct($id = null, $titre, $description = null, $id_categorie = null, $image = null,$enseignant_id=null, $contenue = null,$type=null) {
+        parent::__construct($id,$titre,$description,$id_categorie,$image,$enseignant_id,$type);
+        $this->contenue = $contenue;
+    }
+     public  function ajouter()
     {
-        parent::__construct($id,$titre,$description,$id_categorie,$id_enseignant,$image,$contenue,$type);
-    }
-    public function ajouterCours(){
-        
-        $type='texte';
+        $type = 'texte';
         $this->setType($type);
-        $pdo=Database::getInstance()->getConnection();
-        $stm=$pdo->prepare("INSERT into cours (titre,description,categorie_id,image,enseignant_id,contenu_type,contenu) values (:titre,:description,:categorie_id,:image,:enseignant_id,:type,:contenu)");
-        $stm->bindParam(":titre",$this->titre);
-        $stm->bindParam(':description', $this->description);
-        $stm->bindParam(':categorie_id', $this->id_categorie);
-        $stm->bindParam(':image', $this->image);
-        $stm->bindParam(':enseignant_id', $this->id_enseignant);
-        $stm->bindParam(':contenu', $this->contenue);
-        $stm->bindParam(':type', $this->type);
-        $resultat=$stm->execute();
-    if ($resultat) {
-        $this->id=$pdo->lastInsertId();
-        return true ;
-    }else {
-        return false;
-    }
-    }
-    public static function afficherCoursId($id){
-        $pdo=Database::getInstance()->getConnection();
-        $stm=$pdo->prepare("SELECT * from cours where id = :id");
-        $stm->bindParam(":id",$id);
-        $stm->execute();
-        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
-        $coursTexte = new CoursText($resultat['id'], $resultat['titre'], $resultat['description'], $resultat['categorie_id'], $resultat['enseignant_id'], $resultat['image'], $resultat['contenu'],$resultat['contenu_type']);
-        return $coursTexte ;
+        $pdo = Database::getInstance()->getConnection();
+        $stmt = $pdo->prepare("INSERT INTO Cours (titre, description, categorie_id, image, contenu,contenu_type,enseignant_id) VALUES (:titre, :description, :id_categorie, :image, :contenue,:type,:enseignant_id)");
 
+        $stmt->bindParam(':titre', $this->titre);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':id_categorie', $this->id_categorie,PDO::PARAM_INT);
+        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':enseignant_id', $this->enseignant_id,PDO::PARAM_INT);
+        $stmt->bindParam(':contenue', $this->contenue);
+        $stmt->bindParam(':type', $this->type);
+        if ($stmt->execute()) {
+            $this->id = $pdo->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public function mettreAJour() {
+        $stmt = self::$pdo->prepare("UPDATE cours SET titre = :titre, description = :description, categorie_id = :categorie_id, 
+                enseignant_id = :enseignant_id, contenu = :contenu WHERE id = :id");
+        $stmt->execute([
+            'titre' => $this->titre,
+            'description' => $this->description,
+            'categorie_id' => $this->categorie_id,
+            'enseignant_id' => $this->enseignant_id,
+            'contenu' => $this->contenu,
+            'id' => $this->id
+        ]);
+    }
+    public function afficherCours() {
+        return "<div> ".$this->contenu." </div>";
     }
 
+     
+    public function getContenue() {
+        return $this->contenue;
+    }
+    
+    public function setContenue($contenue) {
+        return $this->contenue;
+    }
 }
 ?>
