@@ -9,13 +9,11 @@ class coursTexte extends Cours{
         parent::__construct($id,$titre,$description,$id_categorie,$image,$enseignant_id,$type);
         $this->contenue = $contenue;
     }
-     public  function ajouter()
-    {
+    public  function ajouter(){
         $type = 'texte';
         $this->setType($type);
         $pdo = Database::getInstance()->getConnection();
         $stmt = $pdo->prepare("INSERT INTO Cours (titre, description, categorie_id, image, contenu,contenu_type,enseignant_id) VALUES (:titre, :description, :id_categorie, :image, :contenue,:type,:enseignant_id)");
-
         $stmt->bindParam(':titre', $this->titre);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':id_categorie', $this->id_categorie,PDO::PARAM_INT);

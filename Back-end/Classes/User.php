@@ -16,7 +16,7 @@ class User {
         $this->role=$role ;
     }
 
-    public function getId(){
+    public  function getId(){
         return $this->id;
     }
     public function getNom(){
@@ -59,32 +59,38 @@ class User {
         }
         return null ;
     } 
-    public static function login($email,$password){
+    public static function login($email, $password) {
         $user = self::findByEmail($email);
-
-        if (!$user || !password_verify($password,$user['password'])) {
-            throw new Exception("Invalid email or password");
-        }else {
+    
+        if (!$user || !password_verify($password, $user['password'])) {
+            return false;
+        } else {
             if ($user['role'] == 'enseignant') {
-                $_SESSION['user'] =  new Enseignant($user['id'], $user['fullName'], $user['role'], $user['active'],$user['banned'],$user['active']);
-            } elseif ($user['role'] == 'etudiant') {
-                
-                $etd = new Etudiant($user['id'], $user['fullName'],$user['email'],null, $user['role'],$user['banned']);
-                echo $etd->getId();
-                $_SESSION['user'] = $etd;
-            }elseif ($user['role'] == 'admin'){
-                $_SESSION['user'] =  new Admin($user['id'], $user['fullName'], $user['role']);
-            }
-            return true;
-        }
-        
 
+                $enseignant = new Enseignant($user['id'], $user['fullName'], $user['email'],null,$user['role'], $user['active'], $user['banned']);
+                $_SESSION['id_logged'] = $enseignant->getId();
+                $_SESSION['role'] = $enseignant->getRole();
+                return $enseignant;
+            } elseif ($user['role'] == 'etudiant') {
+                $etudiant = new Etudiant($user['id'], $user['fullName'], $user['email'], null, $user['role'], $user['banned']);
+                $_SESSION['id_logged'] = $etudiant->getId();                
+                $_SESSION['role'] = $etudiant->getRole();
+                return $etudiant;
+            } elseif ($user['role'] == 'admin') {
+                $admin = new Admin($user['id'], $user['fullName'], $user['role']);
+                $_SESSION['id_logged'] = $admin->getId();
+                $_SESSION['role'] = $admin->getRole();
+                return $admin;
+            }
+        }
     }
+    
+    
     public function __tostring()
     {
         return  'id : '. $this->id.' '.'nom :'. $this->nom.' ' .'role : '.$this->role; 
     }
-    public function logout(){
+    public static function logout(){
         unset($_SESSION['id']);
         unset($_SESSION['role']);
         session_destroy();

@@ -6,9 +6,9 @@ require_once('connection.php');
 class Etudiant extends User {
     private $banned;
 
-    public function __construct($id=null,$nom,$email,$password,$role="etudiant",$banned=false){
-        parent::__construct($id,$nom,$email,$password,$role);
-        $this->banned = $banned;
+    public function __construct($id,$nom,$email,$password,$role="etudiant",$banned=false){
+        parent::__construct($id,$nom,$email,$password,$role,$banned);
+        $this->banned=$banned;
     }
     private function save(){
         $db = Database::getInstance()->getConnection();
@@ -39,6 +39,15 @@ class Etudiant extends User {
         $user = new Etudiant(null,$nom,$email,$password);
         $user->setPasswordHash($password);
         return $user->save();
+    }
+
+    public  function isBanned(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT banned from user where id = :id");
+        $stm->bindParam(":id",$this->id,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
+        return $resultat['banned'];
     }
 }
 

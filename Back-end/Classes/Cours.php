@@ -1,6 +1,6 @@
 <?php
 require_once 'Connection.php';
-require_once 'CoursTexte.php';
+require_once 'CoursText.php';
 require_once 'CoursVideo.php';
 
 
@@ -26,10 +26,10 @@ abstract class Cours  {
     abstract public function afficherCours();
     abstract public function mettreAJour();
 
-  
 
-     public static function afficherTous(){
-  
+
+    public static function afficherTous(){
+
             $pdo = Database::getInstance()->getConnection();
             $stmt = $pdo->query("SELECT * FROM Cours ");
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -88,7 +88,7 @@ abstract class Cours  {
         return $stmt->execute();
     }
 
-    public function addTag($tag_id) {
+    public function addTagCours($tag_id) {
         $pdo = Database::getInstance()->getConnection();
         $stmt = $pdo->prepare("INSERT INTO cours_tag (cours_id, tag_id) VALUES (:cours_id, :tag_id)");
         $stmt->bindParam(':cours_id', $this->id);

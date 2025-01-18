@@ -1,3 +1,14 @@
+<?php
+require_once('../../Back-end/Classes/Categorie.php');
+require_once('../../Back-end/Classes/Tag.php');
+session_start();
+$categorie=Categorie::afficherCategorie();
+$tags=Tag::afficherTags();
+$user=$_SESSION['id_logged'];
+var_dump($user);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,7 +121,7 @@
     <div id="addCourseModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-lg shadow-lg w-[80%] p-6 overflow-y-auto h-[80%]">
             <h2 class="text-lg font-semibold text-gray-800">Add New Course</h2>
-            <form id="addCourseForm" class="mt-4 space-y-4"  enctype="multipart/form-data">
+            <form id="addCourseForm" class="mt-4 space-y-4" action="../../Back-end/Actions/Cours/addCours.php"  method='POST'  enctype="multipart/form-data">
                 <div>
                     <label for="courseTitle" class="block text-sm font-medium text-gray-700">Title</label>
                     <input 
@@ -137,25 +148,37 @@
                         class="block w-full mt-1 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">                </div>
                 <div>
                     <label for="courseTags" class="block text-sm font-medium text-gray-700">Tags</label>
-                    <input 
-                        type="text" 
-                        id="courseTags" 
-                        name="tags" 
-                        class="block w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
-                        placeholder="Type and press Enter to add tags">
-                    <div id="tagsList" class="hidden bg-white border mt-1 rounded-md shadow-md overflow-y-auto max-h-32 w-full"></div>
-                    <div id="selectedTags" class="mt-2 flex flex-wrap gap-2"></div>
-                    <!-- <input type="hidden" name="tags[]" id="tags"> -->
+                    <div class="flex flex-wrap gap-4 mt-2">
+                        <?php
+                        foreach ($tags as $tag) {
+                            echo "
+                            <label class='flex items-center space-x-3 bg-gray-100 border px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200'>
+                                <input 
+                                    type='checkbox' 
+                                    name='tags[]' 
+                                    value='{$tag->getId()}' 
+                                    class='form-checkbox text-blue-500'>
+                                <span class='text-gray-700'>{$tag->getTitre()}</span>
+                            </label>";
+                        }
+                        ?>
+                    </div>
                 </div>
+
                 <div>
                     <label for="courseCategorie" class="block text-sm font-medium text-gray-700">Categorie</label>
                     <select 
                         id="courseCategorie" 
                         name="categorie" 
                         class="block px-3 py-2 w-full mt-1 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                       
+                        <?php
+                        foreach ($categorie as $cat) {
+                            echo "<option value='{$cat->getId()}'>{$cat->getTitre()}</option>";
+                        }
+                        ?>
                     </select>
                 </div>
+
                 <div>
                     <label for="courseType" class="block text-sm font-medium text-gray-700">Type</label>
                     <select 
@@ -172,8 +195,7 @@
                     <textarea 
                         id="courseText" 
                         name="content" 
-                        class="block w-full mt-1 border x-3 py-2 h-32 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                    </textarea>
+                        class="block w-full mt-1 border x-3 py-2 h-32 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
                 </div>
                 <div id="videoContentField" class="hidden">
                     <label for="courseVideo" class="block text-sm font-medium text-gray-700">Video File</label>

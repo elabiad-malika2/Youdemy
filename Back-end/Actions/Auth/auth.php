@@ -5,69 +5,66 @@ require_once __DIR__.'/../../Classes/Etudiant.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['username'])) {
-        $email = trim(htmlspecialchars($_POST['username']));
-        $password = trim(htmlspecialchars($_POST['password']));
-
+    if (isset($_POST['nameLogin'])) {
+        $email = trim(htmlspecialchars($_POST['nameLogin']));
+        $password = trim(htmlspecialchars($_POST['passwordLogin']));
+    
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['message'] = "Invalid email format";
             $_SESSION['message_type'] = "error";
-            header('Location: ../../../public/login.php');
             exit;
         }
-        
+    
         $user = User::login($email, $password);
-       
-        if($user === 403)
-        {
-            $_SESSION['message'] = "Invalid email or password ";
+        print_r($user);
+        if ($user === false) {
+            $_SESSION['message'] = "Invalid email or password";
             $_SESSION['message_type'] = "error";
-            header('Location: ../../../public/login.php');
-        }
-        else if ($user) {
-            if ($user->isBanned()){
-                $_SESSION['message'] = "This User is banned";
-                $_SESSION['message_type'] = "error";
-                User::logout();
-                header('Location: ../../../public/login.php');
-            } else {
-                if($user->getRole() == 'enseignant')
-                {
-                    $res = Enseignant::isActive($user->getId());
-                    
-                    if($res == 1)
-                    {
-                       $_SESSION['message'] = "Welcome back ".$user->getNom();
+            echo "Invalid";
+        } else {
+            $role = $user->getRole();
+    
+            if ($role === 'etudiant') {
+                if ($user->isBanned()) {
+                    $_SESSION['message'] = "This User is banned";
+                    $_SESSION['message_type'] = "error";
+                    User::logout();
+                    header('Location: ../../../Front-end/login.php');
+                } else {
+                    $_SESSION['message'] = "Welcome back " . $user->getNom();
+                    $_SESSION['message_type'] = "success";
+                    header('Location: ../../../Front-end/index.php');
+                }
+            } else if ($role === 'enseignant') {
+                
+                if ($user->isBanned()) {
+                    $_SESSION['message'] = "This User is banned";
+                    $_SESSION['message_type'] = "error";
+                    User::logout();
+                    header('Location: ../../../Front-end/login.php');
+
+                } else {
+                    $res = $user->isActive();
+                    if ($res) {
+                        $_SESSION['message'] = "Welcome back " . $user->getNom();
                         $_SESSION['message_type'] = "success";
-                        header('Location: ../../../public/index.php'); 
-                    } else if($res == 0) {
-                        $_SESSION['message'] = "Compte pas encore activé ";
+                        header('Location: ../../../Front-end/index.php');
+                    } else {
+                        $_SESSION['message'] = "Compte pas encore activé";
                         $_SESSION['message_type'] = "error";
                         User::logout();
-                        header('Location: ../../../public/login.php');
-                    } 
-    
-                } else {
-                    $_SESSION['message'] = "Welcome back ".$user->getNom();
-                    $_SESSION['message_type'] = "success";
-                    header('Location: ../../../public/index.php'); 
+                        echo "Compte pas encore activé";
+                        
+                    }
                 }
             }
-             
-            } else {
-                $_SESSION['message'] = "User Not Found";
-                $_SESSION['message_type'] = "error";
-                header('Location: ../../../public/login.php');
-            }
-            exit;
-            
-            
-
-    } else if (isset($_POST['fullName-signup'])) {
-        $email = trim(htmlspecialchars($_POST['email-signup']));
-        $password = trim(htmlspecialchars($_POST['password-signup']));
-        $fullName = trim(htmlspecialchars($_POST['fullName-signup']));
-        $role = trim(htmlspecialchars($_POST['role-signup']));
+        }
+        exit;
+    }else if (isset($_POST['nameSignup'])) {
+        $email = trim(htmlspecialchars($_POST['emailSignup']));
+        $password = trim(htmlspecialchars($_POST['passwordSignup']));
+        $fullName = trim(htmlspecialchars($_POST['nameSignup']));
+        $role = trim(htmlspecialchars($_POST['role']));
 
         if ($role === 'etudiant') {
             $res = Etudiant::signup($fullName, $email, $password, $role);
@@ -76,18 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $_SESSION['message'] = "Invalid role selected";
             $_SESSION['message_type'] = "error";
-            header('Location: ../../../public/login.php');
+            header('Location: ../../../Front-end/index.php');
             exit;
         }
 
         if ($res) {
             $_SESSION['message_type'] = "success";
             $_SESSION['message'] = "Signup successful! Please log in.";
-            header('Location: ../../../public/login.php');
+            header('Location: ../../../Front-end/login.php');
         } else {
             $_SESSION['message_type'] = "error";
             $_SESSION['message'] = "Email already exists";
-            header('Location: ../../../public/login.php');
+            header('Location: ../../../Front-end/login.php');
         }
         exit;
 

@@ -116,18 +116,18 @@
             class="hero bg-bg-blue-500/5 flex-grow flex justify-center items-center border-blue-400 bg-opacity-20  bg-cover bg-center">
             <div class="bg-white/10 backdrop-blur-lg rounded-lg p-8 md:shadow-lg w-full max-w-md">
                 <h2 class="text-blue-400 text-center text-3xl font-semibold mb-6">Register</h2>
-                <form method="post" id="registerForm" enctype="multipart/form-data">
+                <form action="../Back-end/Actions/Auth/auth.php" method="POST"  id="registerForm" >
 
 
                     <div class="relative mb-4">
                         <i class="ri-user-line text-gray-300 absolute left-4 top-2.5 text-xl"></i>
-                        <input type="text" placeholder="Username" name="username" required
+                        <input type="text" placeholder="Username" name="nameSignup" required
                             class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400" />
                     </div>
 
                     <div class="relative mb-4">
                         <i class="ri-mail-line text-gray-300 absolute left-4 top-2.5 text-xl"></i>
-                        <input type="email" placeholder="Email" name="email" required
+                        <input type="email" placeholder="Email" name="emailSignup" required
                             class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-border-blue-400" />
                     </div>
 
@@ -137,29 +137,23 @@
                         <div class="flex justify-center space-x-4 w-[100%]">
                             <label
                                 class="role-option flex items-center justify-center w-[50%] border border-gray-300 rounded-lg cursor-pointer text-gray-300 bg-transparent hover:border-blue-400 hover:text-blue-400 focus:ring focus:ring-blue-400 transition">
-                                <input type="radio" name="role" value="student" class="hidden radio-input" />
-                                <span class="font-medium">Student</span>
+                                <input type="radio" name="role" value="etudiant" class="hidden radio-input" />
+                                <span class="font-medium">Etudiant</span>
                             </label>
                             <label
                                 class="role-option flex items-center justify-center w-[50%] py-3 border border-gray-300 rounded-lg cursor-pointer text-gray-300 bg-transparent hover:border-blue-400 hover:text-blue-400 focus:ring focus:ring-blue-400 transition">
-                                <input type="radio" name="role" value="instructor" class="hidden radio-input" />
-                                <span class="font-medium">Instructor</span>
+                                <input type="radio" name="role" value="enseignant" class="hidden radio-input" />
+                                <span class="font-medium">Enseignant</span>
                             </label>
                         </div>
                     </div>
 
                     <div class="relative mb-4">
                         <i class="ri-lock-line text-gray-300 absolute left-4 top-2.5 text-xl"></i>
-                        <input type="password" placeholder="Password" name="password" required id="password"
+                        <input type="password" placeholder="Password" name="passwordSignup" required id="password"
                             class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400" />
                     </div>
 
-                    <div class="relative mb-6">
-                        <i class="ri-lock-line text-gray-300 absolute left-4 top-2.5 text-xl"></i>
-                        <input type="password" placeholder="Confirm Password" name="confirm_password"
-                            id="confirm_password" required
-                            class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400" />
-                    </div>
 
                     <button type="submit" name="submit"
                         class="w-full py-2 bg-blue-400 hover:bg-black text-white font-semibold rounded-lg transition duration-200 hover:bg-white hover:border hover:border-blue-400 hover:text-blue-400 hover:text-black">

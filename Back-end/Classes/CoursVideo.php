@@ -1,5 +1,5 @@
 <?php
-require_once 'Connection.php'
+require_once 'Connection.php';
 require_once 'Cours.php';
 class coursVideo extends Cours{
     private $video_url;

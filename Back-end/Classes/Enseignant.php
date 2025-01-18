@@ -4,12 +4,13 @@ require_once('connection.php');
 
 
 class Enseignant extends User {
-    private $banned;
     private $active;
+    private $banned;
 
-    public function __construct($id=null,$nom,$email,$password,$role="enseignant",$active=false){
-        parent::__construct($id=null,$nom,$email,$password,$role);
+    public function __construct($id=null,$nom,$email,$password,$role="enseignant",$active=false,$banned=false){
+        parent::__construct($id,$nom,$email,$password,$role,$banned);
         $this->active=$active;
+        $this->banned=$banned;
     }
     private function save(){
         $db = Database::getInstance()->getConnection();
@@ -26,9 +27,6 @@ class Enseignant extends User {
         $this->password=password_hash($password,PASSWORD_DEFAULT);
     }
     public static function signup($nom,$email,$password){
-        // if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
-        //     throw new Exception("Invalid email format");
-        // }
         if (strlen($password)<6) {
             throw new Exception("Password must be at least 6 characters long");
         }
@@ -41,6 +39,18 @@ class Enseignant extends User {
         $user = new Enseignant(null,$nom,$email,$password);
         $user->setPasswordHash($password);
         return $user->save();
+    }
+    public  function isActive(){
+        return $this->active;
+
+    }
+    public function isBanned(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT banned from user where id = :id");
+        $stm->bindParam(":id",$id,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
+        return $resultat;
     }
 }
 

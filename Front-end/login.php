@@ -109,20 +109,17 @@
             <div class="bg-white/10 backdrop-blur-lg rounded-lg p-8 md:shadow-lg w-full max-w-md">
                 <h2 class="text-blue-400 text-center text-3xl font-semibold mb-6">Login</h2>
                 <span class="flex justify-center text-center text-red-700 mb-5">
-                    <?php if (!empty($errorMessage)): ?>
-                        <?= htmlspecialchars($errorMessage) ?>
-                    <?php endif; ?>
                 </span>
-                <form method="post">
+                <form action="../Back-end/Actions/Auth/auth.php" method="POST">
                     <div class="relative mb-4">
                         <i class="ri-user-line text-gray-300 absolute left-4 top-2 text-xl"></i>
-                        <input type="text" placeholder="Username" name="username"
+                        <input type="text" placeholder="Username" name="nameLogin"
                             class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400" />
                     </div>
 
                     <div class="relative mb-4">
                         <i class="ri-lock-line text-gray-300 absolute left-4 top-2 text-xl"></i>
-                        <input type="password" placeholder="Password" name="password"
+                        <input type="password" placeholder="Password" name="passwordLogin"
                             class="w-full pl-12 border border-gray-300 pr-4 py-2 rounded-lg bg-white/10 text-gray-600 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400" />
                     </div>
 
