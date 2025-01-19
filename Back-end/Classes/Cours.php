@@ -2,6 +2,7 @@
 require_once 'Connection.php';
 require_once 'CoursText.php';
 require_once 'CoursVideo.php';
+require_once 'Tag.php';
 
 
 abstract class Cours  {
@@ -60,11 +61,18 @@ abstract class Cours  {
 
         
     }
-    public static function afficherTous(){
+    public static function afficherTous($search='',$page=1,$limit=6){
 
             $pdo = Database::getInstance()->getConnection();
-            $stmt = $pdo->query("SELECT * FROM Cours ");
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $offset=($page - 1)*$limit;
+
+            $stm = $pdo->prepare("SELECT * FROM Cours where titre LIKE :search or description LIKE :search LIMIT :limit OFFSET :offset");
+            $serachT="%$search%";
+            $stm->bindParam(':search',$serachT,PDO::PARAM_STR);
+            $stm->bindParam(':limit',$limit,PDO::PARAM_INT);
+            $stm->bindParam(':offset',$offset,PDO::PARAM_INT);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     
             $cours = [];
             foreach ($result as $row) {
@@ -80,6 +88,24 @@ abstract class Cours  {
             return $cours;
         
     }    
+
+    // function pour obtenir le nombre total de cours correspondant à la recherche (pour la pagination)
+    public static function afficherTotalsomme($search = '') {
+        $pdo = Database::getInstance()->getConnection();
+    
+        if (empty($search)) {
+            $stm = $pdo->query("SELECT count(*) FROM cours");
+        } else {
+            $stm = $pdo->prepare("SELECT count(*) FROM cours WHERE titre LIKE :search OR description LIKE :search");
+            $searchT = "%$search%";
+            $stm->bindParam(":search", $searchT, PDO::PARAM_STR);
+            $stm->execute();
+        }
+    
+        $resultat = $stm->fetchColumn();
+        return $resultat;
+    }
+    
 
     public function modifier() {
         $pdo = Database::getInstance()->getConnection();
@@ -127,6 +153,25 @@ abstract class Cours  {
         $stmt->bindParam(':tag_id', $tag_id);
 
         return $stmt->execute();
+    }
+
+    public static function coursTags($idC){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT t.*  from cours_tag tc
+                            join Tag t on t.id = tc.tag_id
+                            join cours c on c.id = tc.cours_id 
+                            where c.id= :idC");
+        $stm->bindParam(':idC',$idC);
+        $stm->execute();
+        $resultat = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $data=[];
+        if ($resultat) {
+            foreach ($resultat as $value) {
+                $data[]= new Tag($value['id'],$value['titre']);
+            }
+        }
+        return $data ;
+        
     }
 
     public function getId() {

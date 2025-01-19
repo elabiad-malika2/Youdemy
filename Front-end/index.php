@@ -1,6 +1,16 @@
 <?php
 require_once('../Back-end/Classes/Cours.php');
-$cours = Cours::afficherTous();
+// Paramètres de recherche et pagination
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 6;
+$cours = Cours::afficherTous($search, $page, $limit);
+
+
+// Calculer le nombre total de pages
+$totalCount = Cours::afficherTotalsomme($search);
+var_dump($totalCount);
+$totalPages = ceil($totalCount / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -259,6 +269,15 @@ $cours = Cours::afficherTous();
                 Our Popular <span
                     class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Courses</span>
             </h2>
+            <form method="GET" class="mb-6">
+                <input 
+                    type="text" 
+                    name="search" 
+                    class="w-full p-3 rounded-lg border border-gray-300" 
+                    placeholder="Search for courses..."
+                    value="<?= htmlspecialchars($search) ?>"
+                />
+            </form>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php foreach ($cours as $c):?>
                     <a href="./Etudiant/detailsCours.php?idCours=<?= $c->getId()?>">
@@ -282,6 +301,24 @@ $cours = Cours::afficherTous();
                         </div>
                     </a>
                 <?php endforeach ; ?>
+                <div class="flex justify-center mt-6">
+                    <nav class="flex space-x-4">
+                        
+                        <?php if ($page > 1): ?>
+                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page - 1 ?>" class="text-blue-600 hover:text-blue-800">&laquo; Previous</a>
+                        <?php endif; ?>
+
+                        <!-- Numéros de page -->
+                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $i ?>" class="text-blue-600 hover:text-blue-800"><?= $i ?></a>
+                        <?php endfor; ?>
+
+                        <!-- Page suivante -->
+                        <?php if ($page < $totalPages): ?>
+                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page + 1 ?>" class="text-blue-600 hover:text-blue-800">Next &raquo;</a>
+                        <?php endif; ?>
+                    </nav>
+                </div>
 
             </div>
         </div>

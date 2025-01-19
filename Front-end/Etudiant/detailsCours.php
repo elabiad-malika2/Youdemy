@@ -5,7 +5,9 @@ require_once('../../Back-end/Classes/Cours.php');
 if (isset($_GET['idCours'])) {
     $idC=$_GET['idCours'];
     $cours = Cours::afficherCoursId($idC);
+    $tags = Cours::coursTags($idC);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +56,15 @@ if (isset($_GET['idCours'])) {
                         <?= $cours->getDescription() ?>
                     </div>
                     </p>
+                    <div id="tag-list" class="mt-4 flex flex-wrap gap-2">
+                        <?php
+                            foreach ($tags as $tag) {
+                                echo "<span class='px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center'>#{$tag->getTitre()}
+                                        
+                                    </span>";
+                            }
+                        ?>
+                    </div>
                 </div>
 
                 <!-- Tabs pour le contenu -->
