@@ -109,7 +109,7 @@ abstract class Cours  {
     // Rejoindre Cours :
     public static function rejoindreCours($idEt,$idC){
         $pdo = Database::getInstance()->getConnection();
-        $stm=$pdo->prepare("INSERT into etudiant_cours (cours_id,etudiant_cours) values (:idE,:idC)");
+        $stm=$pdo->prepare("INSERT into etudiant_cours (cours_id,etudiant_id) values (:idC,:idE)");
         $stm->bindParam(':idE',$idEt,PDO::PARAM_INT);
         $stm->bindParam(':idC',$idC,PDO::PARAM_INT);
         $resultat=$stm->execute();

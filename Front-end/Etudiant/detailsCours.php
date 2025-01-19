@@ -82,7 +82,7 @@ if (isset($_GET['idCours'])) {
                         <span class="text-4xl font-bold text-blue-600">49,99 €</span>
                     </div>
 
-                    <a href="" class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-8 font-medium">
+                    <a href="../../Back-end/Actions/Cours/addInscription.php?idC=<?= $cours->getId()?>" class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-8 font-medium">
                         Rejoindre cours
                     </a>
 
