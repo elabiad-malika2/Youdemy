@@ -9,7 +9,6 @@ $cours = Cours::afficherTous($search, $page, $limit);
 
 // Calculer le nombre total de pages
 $totalCount = Cours::afficherTotalsomme($search);
-var_dump($totalCount);
 $totalPages = ceil($totalCount / $limit);
 ?>
 

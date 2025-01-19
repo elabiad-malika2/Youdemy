@@ -8,8 +8,7 @@ class coursVideo extends Cours{
         parent::__construct($id,$titre,$description,$id_categorie,$image,$enseignant_id,$type);
         $this->video_url = $video_url;
     }
-    public  function ajouter()
-    {
+    public  function ajouter(){
         $type = 'video';
         $this->setType($type);
         $pdo = Database::getInstance()->getConnection();
