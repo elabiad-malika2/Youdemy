@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $title=$_POST['title'];
     $description=$_POST['description'];
     $idCategorie=$_POST['categorie'];
+    var_dump($idCategorie);
     $idEnseignant=$_SESSION['id_logged'];
     $type=$_POST['type'];
     $tags=$_POST['tags'];
@@ -24,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $videoUrl=null;
         if(isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
             $videoUrl='/uploads/videos/' . basename($_FILES['video']['name']);
-            move_uploaded_file($_FILES['video']['tmp_name'], __DIR__ . '/../../../Front-end') . $videoUrl;
+            move_uploaded_file($_FILES['video']['tmp_name'], __DIR__ . '/../../../Front-end' . $videoUrl);
         }
 
-        $cours = new CoursVideo(null,$title,$description,$idCategorie,$image,$idEnseignant,$videoUrl,$type) ;
+        $cours = new CoursVideo(null,$title,$description,$idCategorie,$imageUrl,$idEnseignant,$videoUrl,$type) ;
     }
     $resultat=$cours->ajouter();
     foreach ($tags as $t) {

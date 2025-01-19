@@ -27,7 +27,39 @@ abstract class Cours  {
     abstract public function mettreAJour();
 
 
+    public static function afficherCoursProf($idEnseignant){
+        $pdo = Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT * from cours where enseignant_id = :enseignant_id");
+        $stm->bindParam(':enseignant_id',$idEnseignant,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        $coursProf=[];
+        foreach ($resultat as $c) {
+            if($c['contenu_type'] == 'video'){
+                $coursProf[] = new coursVideo($c['id'], $c['titre'], $c['description'], $c['categorie_id'], $c['image'], $c['video_url'],$c['contenu_type']);
+            }else {
+                $coursProf[] = new coursTexte($c['id'], $c['titre'], $c['description'], $c['categorie_id'], $c['image'], $c['contenu'],$c['contenu_type']);
 
+            }        
+        }
+        return $coursProf;
+    }
+    public static function afficherCoursId($idCours){
+        $pdo = Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT * from cours where id = :idCours");
+        $stm->bindParam(':idCours',$idCours,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
+        
+            if($resultat['contenu_type'] == 'video'){
+                return new coursVideo($resultat['id'], $resultat['titre'], $resultat['description'], $resultat['categorie_id'], $resultat['image'], $resultat['enseignant_id'],$resultat['video_url'],$resultat['contenu_type']);
+            }else {
+                return new coursTexte($resultat['id'], $resultat['titre'], $resultat['description'], $resultat['categorie_id'], $resultat['image'], $resultat['enseignant_id'],$resultat['contenu'],$resultat['contenu_type']);
+
+            }        
+
+        
+    }
     public static function afficherTous(){
 
             $pdo = Database::getInstance()->getConnection();
@@ -47,7 +79,7 @@ abstract class Cours  {
             }
             return $cours;
         
-   }
+    }    
 
     public function modifier() {
         $pdo = Database::getInstance()->getConnection();
@@ -125,11 +157,11 @@ abstract class Cours  {
         $this->id_categorie = $id_categorie;
     }
 
-    public function getImagePath() {
+    public function getImage() {
         return $this->image;
     }
 
-    public function setImagePath($image) {
+    public function setImage($image) {
         $this->image = $image;
     }
 
