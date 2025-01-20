@@ -45,6 +45,17 @@ abstract class Cours  {
         }
         return $coursProf;
     }
+    public static function afficherCoursProfs(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare(" SELECT co.*,ca.titre as titreC , u.fullName from cours co
+                                join user u on u.id = co.enseignant_id 
+                                join categorie ca on ca.id=co.categorie_id
+                                where u.role = 'enseignant' and co.status = 'En Attente' ");
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat;
+        
+    }
     public static function afficherCoursId($idCours){
         $pdo = Database::getInstance()->getConnection();
         $stm=$pdo->prepare("SELECT * from cours where id = :idCours");
@@ -87,7 +98,29 @@ abstract class Cours  {
             }
             return $cours;
         
-    }    
+    } 
+    public static function modifierStatus($idC){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("UPDATE cours set status = 'Accepte' where id = :idC");
+        $stm->bindParam(":idC",$idC,PDO::PARAM_INT);
+        $resultat=$stm->execute();
+        if ($resultat) {
+            return true ;
+        }else {
+            return false ;
+        }
+    }  
+    public static function modifierStatusR($idC){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("UPDATE cours set status = 'Refuse' where id = :idC");
+        $stm->bindParam(":idC",$idC,PDO::PARAM_INT);
+        $resultat=$stm->execute();
+        if ($resultat) {
+            return true ;
+        }else {
+            return false ;
+        }
+    }  
 
     // function pour obtenir le nombre total de cours correspondant à la recherche (pour la pagination)
     public static function afficherTotalsomme($search = '') {

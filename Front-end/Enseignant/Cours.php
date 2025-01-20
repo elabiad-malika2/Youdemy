@@ -94,31 +94,33 @@ $cours = Cours::afficherCoursProf($user);
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Course Card -->
                 <?php foreach ($cours as $course): ?>
-                    <div class="bg-white rounded-lg shadow-sm border border-blue-400 overflow-hidden hover:shadow-md transition-shadow">
-                        <img src="<?= '..' . $course->getImage() ?>" alt="Course Image" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="text-lg font-semibold text-gray-800"><?= $course->getTitre()?></h3>
-                                <button class="text-gray-500 hover:text-blue-500">
-                                    <i class="ri-more-2-fill"></i>
-                                </button>
-                            </div>
-                            <div class="flex items-center text-sm text-gray-500 mb-4">
-                                <i class="ri-user-line mr-2"></i>
-                                <span>25 Students</span>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-light text-gray-800"><?= $course->getDescription()?></h3>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-blue-400 font-bold">$49.99</span>
-                                <div class="flex items-center text-blue-400">
-                                    <i class="ri-star-fill mr-1"></i>
-                                    4.8
+                    <a href="./detailsCours.php?idCours=<?= $course->getId()?>">
+                        <div class="bg-white rounded-lg shadow-sm border border-blue-400 overflow-hidden hover:shadow-md transition-shadow">
+                            <img src="<?= '..' . $course->getImage() ?>" alt="Course Image" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-semibold text-gray-800"><?= $course->getTitre()?></h3>
+                                    <button class="text-gray-500 hover:text-blue-500">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <i class="ri-user-line mr-2"></i>
+                                    <span>25 Students</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-light text-gray-800"><?= $course->getDescription()?></h3>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-blue-400 font-bold">$49.99</span>
+                                    <div class="flex items-center text-blue-400">
+                                        <i class="ri-star-fill mr-1"></i>
+                                        4.8
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
 
                 <!-- Add more course cards here -->

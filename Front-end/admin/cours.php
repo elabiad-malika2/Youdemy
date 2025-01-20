@@ -1,13 +1,14 @@
 <?php
 require_once('../../Back-end/Classes/Categorie.php');
+require_once('../../Back-end/Classes/Cours.php');
 $categories=Categorie::afficherCategorie();
 $idC=null;
 if (isset($_GET['edit_id'])) {
     $idC=$_GET['edit_id'];
     $categorie = Categorie::afficherCategorieId($idC);
-    // var_dump($categorie);
-
 }
+$coursProf= Cours::afficherCoursProfs();
+
 
 
 
@@ -77,40 +78,51 @@ if (isset($_GET['edit_id'])) {
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Course</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Teacher</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Category</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Price</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Status</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/48/48" alt="Course" class="w-12 h-12 rounded-lg">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Advanced Web Development</p>
-                                        <p class="text-sm text-gray-500">12 lessons</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">John Doe</td>
-                            <td class="px-6 py-4 text-gray-800">Development</td>
-                            <td class="px-6 py-4 text-gray-800">$99.99</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
-                                        Accept
-                                    </button>
-                                    <button class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
-                                        Reject
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php
+                        foreach ($coursProf as $cours) {
+                            // Extraction des données
+                            $courseName = htmlspecialchars($cours['titre']); // Titre du cours
+                            $teacherName = htmlspecialchars($cours['fullName']); // Nom de l'enseignant
+                            $category = htmlspecialchars($cours['titreC']); // Catégorie du cours
+                            $courseId = htmlspecialchars($cours['id']); // ID du cours pour l'acceptation ou le rejet
+
+                            // Affichage du tableau
+                            echo "<tr class='hover:bg-gray-50'>
+                                    <td class='px-6 py-4 max-w-xs overflow-hidden text-ellipsis'>
+                                        <div class='flex items-center space-x-3'>
+                                            <img src='../".$cours['image']."' alt='Course' class='w-12 h-12 rounded-lg'>
+                                            <div>
+                                                <p class='font-medium text-gray-800'>{$courseName}</p>
+                                                <p class='text-sm text-gray-500'>12 lessons</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class='px-6 py-4 max-w-xs overflow-hidden text-ellipsis text-gray-800'>{$teacherName}</td>
+                                    <td class='px-6 py-4 max-w-xs overflow-hidden text-ellipsis text-gray-800'>{$category}</td>
+                                    <td class='px-6 py-4'>
+                                        <span class='px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm'>{$cours['status']}</span>
+                                    </td>
+                                    <td class='px-6 py-4'>
+                                        <div class='flex space-x-2'>
+                                            <a href='../../Back-end/Actions/Cours/modifierStatus.php?idC=$courseId' class='px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600'>
+                                                Accept
+                                            </a>
+                                            <button onclick='rejectCourse({$courseId})' class='px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600'>
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>";
+                        }
+                        ?>
                     </tbody>
+
+
                 </table>
             </div>
         </div>
