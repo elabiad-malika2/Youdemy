@@ -1,3 +1,10 @@
+<?php
+require_once('../../Back-end/Classes/Enseignant.php');
+
+$teachers=Enseignant::afficherTeacher();
+var_dump($teachers);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

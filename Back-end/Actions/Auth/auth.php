@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role = $user->getRole();
     
             if ($role === 'etudiant') {
-                if ($user->isBanned()) {
+                if ($user->getBanned()) {
                     $_SESSION['message'] = "This User is banned";
                     $_SESSION['message_type'] = "error";
                     User::logout();
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             } else if ($role === 'enseignant') {
                 
-                if ($user->isBanned()) {
+                if ($user->getBanned()) {
                     $_SESSION['message'] = "This User is banned";
                     $_SESSION['message_type'] = "error";
                     User::logout();

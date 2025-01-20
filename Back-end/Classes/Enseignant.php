@@ -48,6 +48,17 @@ class Enseignant extends User {
         return $this->banned;
 
     }
+    public static function afficherTeacher(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT * from user where role = 'enseignant' and active = 0");
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        $data=[];
+        foreach ($resultat as $value) {
+            $data[]=new Enseignant($value['id'],$value['fullName'],$value['email'],$value['password'],$value['role'],$value['active'],$value['banned']);
+        }
+        return $data ;
+    }
 }
 
 

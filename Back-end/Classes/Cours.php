@@ -13,6 +13,8 @@ abstract class Cours  {
     protected $type;
     protected $enseignant_id;
 
+
+
     public function __construct($id = null, $titre = null, $description = null, $categorie_id = null, $image = null,$enseignant_id=null,$type=null) {
         $this->id = $id;
         $this->titre = $titre;
