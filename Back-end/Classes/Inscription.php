@@ -25,15 +25,13 @@ class Inscription {
     }
 
     // Check user if join :
-    public static function checkCourseJoined($idC,$idE){
+    public  function checkCourseJoined(){
         $pdo = Database::getInstance()->getConnection();
-        $stm=$pdo->prepare("SELECT * from cours_tag where enseignant_id = :idC and categorie_id = :idE ");
-        $stm->binParam(":idC",$idC,PDO::FETCH_ASSOC);
-        $stm->binParam(":idE",$idE,PDO::FETCH_ASSOC);
-        $resultat=$stm->execute();
-        if ($resultat) {
-            return true ;
-        }
+        $stm=$pdo->prepare("SELECT count(*) as total from etudiant_cours where cours_id = :idC and etudiant_id = :idE ");
+        $stm->bindParam(":idC",$this->idCours,PDO::PARAM_INT);
+        $stm->bindParam(":idE",$this->idEtudiant,PDO::PARAM_INT);
+        $stm->execute();
+        return $stm->fetch(PDO::FETCH_ASSOC);
     }
 }
 

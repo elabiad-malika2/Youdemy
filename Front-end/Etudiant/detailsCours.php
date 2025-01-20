@@ -1,12 +1,16 @@
 <?php
 
 require_once('../../Back-end/Classes/Cours.php');
-
+require_once('../../Back-end/Classes/Inscription.php');
+session_start();
 if (isset($_GET['idCours'])) {
-    $idC=$_GET['idCours'];
+    $idC=(int)$_GET['idCours'];
     $cours = Cours::afficherCoursId($idC);
     $tags = Cours::coursTags($idC);
 }
+$idE=$_SESSION["id_logged"];
+$inscris= new Inscription($idE,$idC);
+$check=$inscris->checkCourseJoined($idC,$idE);
 
 ?>
 
@@ -51,11 +55,12 @@ if (isset($_GET['idCours'])) {
                 <!-- À propos -->
                 <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
                     <h2 class="text-2xl font-bold mb-4 text-gray-800">À propos de ce cours</h2>
-                    <p class="text-gray-600 leading-relaxed">
                     <div class="p-6">
-                        <?= $cours->getDescription() ?>
+                        <p class="text-gray-600 leading-relaxed">
+                            <?= $cours->getDescription() ?>
+                        </p>
                     </div>
-                    </p>
+
                     <div id="tag-list" class="mt-4 flex flex-wrap gap-2">
                         <?php
                             foreach ($tags as $tag) {
@@ -81,11 +86,13 @@ if (isset($_GET['idCours'])) {
                     <div class="text-center mb-6">
                         <span class="text-4xl font-bold text-blue-600">49,99 €</span>
                     </div>
-                    <button class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-8 font-medium">
-                        <a href="../../Back-end/Actions/Cours/addInscription.php?idC=<?= $cours->getId()?>" >
-                            Rejoindre cours
-                        </a>
-                    </button>
+                    <?php if ($check['total'] == 0) :?>
+                        <button class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors mb-8 font-medium">
+                            <a href="../../Back-end/Actions/Cours/addInscription.php?idC=<?= $cours->getId()?>" >
+                                Rejoindre cours
+                            </a>
+                        </button>
+                    <?php endif ;?>
                     
 
                     <div class="space-y-4">
