@@ -44,13 +44,9 @@ class Enseignant extends User {
         return $this->active;
 
     }
-    public function isBanned(){
-        $pdo=Database::getInstance()->getConnection();
-        $stm=$pdo->prepare("SELECT banned from user where id = :id");
-        $stm->bindParam(":id",$id,PDO::PARAM_INT);
-        $stm->execute();
-        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
-        return $resultat;
+    public  function getBanned(){
+        return $this->banned;
+
     }
 }
 

@@ -1,7 +1,8 @@
 <?php
 require_once('../../Back-end/Classes/User.php');
+require_once ("../../Back-end/classes/Enseignant.php");
+require_once("../../Back-end/classes/Etudiant.php");
 $users = User::afficherUsers();
-var_dump($users);
 
 ?>
 <!DOCTYPE html>
@@ -89,73 +90,51 @@ var_dump($users);
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Email</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Role</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Status</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Joined Date</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <!-- Example User Row 1 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/40/40" alt="User" class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <p class="font-medium text-gray-800">John Doe</p>
-                                        <p class="text-sm text-gray-500">@johndoe</p>
+                        <?php foreach ($users as $user): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="/api/placeholder/40/40" alt="User" class="w-10 h-10 rounded-full">
+                                        <div>
+                                            <p class="font-medium text-gray-800"><?php echo $user->getNom(); ?></p>
+                                            <p class="text-sm text-gray-500"><?php echo $user->getEmail(); ?></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">john.doe@example.com</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Teacher</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Active</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">Jan 15, 2024</td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="p-2 text-yellow-400 hover:text-yellow-600" title="Suspend">
-                                        <i class="ri-pause-circle-line text-lg"></i>
-                                    </button>
-                                    <button class="p-2 text-red-400 hover:text-red-600" title="Delete">
-                                        <i class="ri-delete-bin-line text-lg"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Example User Row 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/40/40" alt="User" class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Jane Smith</p>
-                                        <p class="text-sm text-gray-500">@janesmith</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-800"><?php echo $user->getEmail(); ?></td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"><?php echo $user->getRole(); ?></span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-3 py-1 bg-<?php echo $user->getBanned() ? 'red' : 'green'; ?>-100 text-<?php echo $user->getBanned() ? 'red' : 'green'; ?>-800 rounded-full text-sm">
+                                        <?php echo $user->getBanned() ? 'Banned' : 'Active'; ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <?php if ($user->getBanned()): ?>
+                                            <a href="../../Back-end/Actions/User/updateStatus.php?idU=<?=$user->getId()?>" class="p-2 text-green-400 hover:text-green-600" title="Activate">
+                                                <i class="ri-play-circle-line text-lg"></i>
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="../../Back-end/Actions/User/updateStatus.php?idB=<?=$user->getId()?>" class="p-2 text-yellow-400 hover:text-yellow-600" title="Suspend">
+                                                <i class="ri-pause-circle-line text-lg"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <button class="p-2 text-red-400 hover:text-red-600" title="Delete">
+                                            <i class="ri-delete-bin-line text-lg"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">jane.smith@example.com</td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">Student</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Suspended</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">Dec 20, 2023</td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="p-2 text-green-400 hover:text-green-600" title="Activate">
-                                        <i class="ri-play-circle-line text-lg"></i>
-                                    </button>
-                                    <button class="p-2 text-red-400 hover:text-red-600" title="Delete">
-                                        <i class="ri-delete-bin-line text-lg"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
+
+
                 </table>
             </div>
         </div>
