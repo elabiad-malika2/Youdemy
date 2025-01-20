@@ -104,53 +104,7 @@ $tags = Tag::afficherTags();
             </div>
         </div>
 
-        <!-- Teacher Validation Section -->
-        <div class="bg-white rounded-lg shadow-sm border border-blue-100 p-6 mb-8">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Pending Teacher Validations</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Teacher</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Specialization</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Documents</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Status</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/32/32" alt="Teacher" class="w-8 h-8 rounded-full">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Sarah Johnson</p>
-                                        <p class="text-sm text-gray-500">sarah@example.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">Web Development</td>
-                            <td class="px-6 py-4">
-                                <button class="text-blue-400 hover:text-blue-500">View Documents</button>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600">
-                                        Approve
-                                    </button>
-                                    <button class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">
-                                        Reject
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
 
         <!-- Statistics Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
