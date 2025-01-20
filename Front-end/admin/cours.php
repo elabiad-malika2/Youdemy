@@ -112,9 +112,9 @@ $coursProf= Cours::afficherCoursProfs();
                                             <a href='../../Back-end/Actions/Cours/modifierStatus.php?idC=$courseId' class='px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600'>
                                                 Accept
                                             </a>
-                                            <button onclick='rejectCourse({$courseId})' class='px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600'>
+                                            <a href='../../Back-end/Actions/Cours/modifierStatus.php?idR=$courseId' class='px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600'>
                                                 Reject
-                                            </button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>";

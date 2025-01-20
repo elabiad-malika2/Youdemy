@@ -96,6 +96,9 @@ class User {
         session_destroy();
         return true ;
     }
+    public static function afficherUsers(){
+        $pdo= Databse::
+    }
 
 
     }
