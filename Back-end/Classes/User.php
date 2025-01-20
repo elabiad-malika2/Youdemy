@@ -1,6 +1,6 @@
 <?php
 require_once("connection.php");
-require_once "Enseignant.php";
+require_once ("Enseignant.php");
 require_once("Etudiant.php");
 session_start();
 class User {
