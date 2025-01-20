@@ -1,5 +1,7 @@
 <?php
-
+require_once('../../Back-end/Classes/User.php');
+$users = User::afficherUsers();
+var_dump($users);
 
 ?>
 <!DOCTYPE html>
@@ -155,15 +157,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="flex justify-between items-center mt-6">
-                <p class="text-gray-600">Showing 1-10 of 45 users</p>
-                <div class="flex space-x-2">
-                    <button class="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50">Previous</button>
-                    <button class="px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500">Next</button>
-                </div>
             </div>
         </div>
     </main>

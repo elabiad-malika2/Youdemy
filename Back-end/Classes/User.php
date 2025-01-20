@@ -1,5 +1,7 @@
 <?php
 require_once("connection.php");
+require_once "Enseignant.php";
+require_once("Etudiant.php");
 session_start();
 class User {
     protected $id ;
@@ -97,7 +99,36 @@ class User {
         return true ;
     }
     public static function afficherUsers(){
-        $pdo= Databse::
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT * from user where role != 'admin'");
+        $stm->execute();
+        $resultat = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $userL = [];
+    
+        foreach($resultat as $res) {
+            if($res['role'] == 'etudiant') {
+                $userL[] = new Etudiant(
+                    $res['id'], 
+                    $res['fullName'], 
+                    $res['email'], 
+                    $res['password'], 
+                    $res['role'], 
+                    $res['banned']
+                );
+            } else if($res['role'] == 'enseignant') {
+
+                $userL[] = new Enseignant(
+                    $res['id'], 
+                    $res['fullName'], 
+                    $res['email'], 
+                    $res['password'], 
+                    $res['role'], 
+                    $res['active'],
+                    $res['banned'] 
+                );
+            } 
+        }
+        return $userL ;
     }
 
 
