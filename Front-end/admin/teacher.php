@@ -81,77 +81,48 @@ var_dump($teachers);
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Teacher</th>
-                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Specialization</th>
+                            <th class="px-6 py-3 text-left text-gray-500 font-medium">Role</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Documents</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Status</th>
                             <th class="px-6 py-3 text-left text-gray-500 font-medium">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <!-- Example Row 1 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/40/40" alt="Teacher" class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <p class="font-medium text-gray-800">John Smith</p>
-                                        <p class="text-sm text-gray-500">john.smith@email.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">Computer Science</td>
-                            <td class="px-6 py-4">
-                                <button class="text-blue-500 hover:text-blue-700">
-                                    <i class="ri-file-text-line mr-2"></i>View Files
-                                </button>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="p-2 text-green-400 hover:text-green-600" title="Approve">
-                                        <i class="ri-check-line text-lg"></i>
-                                    </button>
-                                    <button class="p-2 text-red-400 hover:text-red-600" title="Reject">
-                                        <i class="ri-close-line text-lg"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Example Row 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center space-x-3">
-                                    <img src="/api/placeholder/40/40" alt="Teacher" class="w-10 h-10 rounded-full">
-                                    <div>
-                                        <p class="font-medium text-gray-800">Sarah Johnson</p>
-                                        <p class="text-sm text-gray-500">sarah.j@email.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-800">Mathematics</td>
-                            <td class="px-6 py-4">
-                                <button class="text-blue-500 hover:text-blue-700">
-                                    <i class="ri-file-text-line mr-2"></i>View Files
-                                </button>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <button class="p-2 text-green-400 hover:text-green-600" title="Approve">
-                                        <i class="ri-check-line text-lg"></i>
-                                    </button>
-                                    <button class="p-2 text-red-400 hover:text-red-600" title="Reject">
-                                        <i class="ri-close-line text-lg"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <tbody class="divide-y divide-gray-100">
+                                <?php foreach ($teachers as $teacher): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="/api/placeholder/40/40" alt="Teacher" class="w-10 h-10 rounded-full">
+                                            <div>
+                                                <p class="font-medium text-gray-800"><?php echo $teacher->getNom(); ?></p>
+                                                <p class="text-sm text-gray-500"><?php echo $teacher->getEmail(); ?></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-800"><?php echo $teacher->getRole(); ?></td> 
+                                    <td class="px-6 py-4">
+                                        <button class="text-blue-500 hover:text-blue-700">
+                                            <i class="ri-file-text-line mr-2"></i>View Files
+                                        </button>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex space-x-2">
+                                            <a href="../../Back-end/Actions/User/ActiveTeacher.php?idT=<?=$teacher->getId()?>" class="p-2 text-green-400 hover:text-green-600" title="Approve">
+                                                <i class="ri-check-line text-lg"></i>
+                                            </a>
+                                            <button class="p-2 text-red-400 hover:text-red-600" title="Reject">
+                                                <i class="ri-close-line text-lg"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
             </div>
         </div>
     </main>

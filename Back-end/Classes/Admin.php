@@ -27,6 +27,17 @@ class Admin extends User{
             false;
         }
     }
+    public static function Active($id){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("UPDATE user set active = 1 where id = :id");
+        $stm->bindParam(':id',$id,PDO::PARAM_INT);
+        $resultat=$stm->execute();
+        if ($resultat) {
+            return true;
+        }else {
+            false;
+        }
+    }
     
 }
 
