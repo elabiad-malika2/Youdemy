@@ -1,5 +1,7 @@
 <?php
 require_once("Connection.php");
+require_once("CoursText.php");
+require_once("CoursVideo.php");
 class Inscription {
     private $idEtudiant;
     private $idCours;
@@ -32,6 +34,28 @@ class Inscription {
         $stm->bindParam(":idE",$this->idEtudiant,PDO::PARAM_INT);
         $stm->execute();
         return $stm->fetch(PDO::FETCH_ASSOC);
+    }
+    public static function getMyCourses($idE){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT c.* , u.fullName , ce.* from etudiant_cours ce 
+                            join cours c on c.id=ce.cours_id
+                            join user u on u.id=ce.etudiant_id 
+                            where u.id = :idE and u.role='etudiant' ");
+        $stm->bindParam(":idE",$idE,PDO::FETCH_ASSOC);
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        $data=[];
+        foreach ($resultat as $value) {
+            if ($value['contenu_type']=='video') {
+                $data[] = new coursVideo($value['id'],$value['titre'],$value['description'],$value['categorie_id'],$value['image'],$value['enseignant_id'],$value['video_url'],$value['contenu_type']);
+               
+            }elseif ($value['contenu_type']=='texte') {
+                $data[]= new coursTexte($value['id'],$value['titre'],$value['description'],$value['categorie_id'],$value['image'],$value['enseignant_id'],$value['contenu'],$value['contenu_type']);
+                
+            }
+        }
+        return $data ;
+
     }
 }
 

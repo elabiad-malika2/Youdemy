@@ -1,3 +1,9 @@
+<?php
+require_once('../../Back-end/Classes/Inscription.php');
+session_start();
+$idE=$_SESSION['id_logged'];
+$mycourses = Inscription::getMyCourses($idE);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,50 +60,24 @@
 
             <!-- Courses Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Course Card 1 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
-                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">Web Development</span>
-                        <h3 class="font-semibold text-lg mt-3 text-gray-800">Complete JavaScript Course 2024</h3>
-                        <p class="text-gray-600 mt-2 text-sm">Master modern JavaScript from beginner to advanced</p>
-                        <div class="mt-4">
-                            <a href="#" class="text-blue-500 hover:text-blue-600 font-medium inline-flex items-center">
-                                Continue Learning <i class="ri-arrow-right-line ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Course Card 2 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
-                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">UI/UX Design</span>
-                        <h3 class="font-semibold text-lg mt-3 text-gray-800">UI/UX Design Principles</h3>
-                        <p class="text-gray-600 mt-2 text-sm">Learn modern design principles and practices</p>
-                        <div class="mt-4">
-                            <a href="#" class="text-blue-500 hover:text-blue-600 font-medium inline-flex items-center">
-                                Continue Learning <i class="ri-arrow-right-line ml-2"></i>
-                            </a>
-                        </div>
+            <?php foreach($mycourses as $value ): ?>
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
+                        <img src="<?= '..' . $value->getImage() ?>" alt="Course thumbnail" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $value->getTitre() ?></span>
+                            <h3 class="font-semibold text-lg mt-3 text-gray-800"><?= $value->getTitre() ?></h3>
+                            <p class="text-gray-600 mt-2 text-sm"><?= $value->getDescription() ?></p>
+                            <div class="mt-4">
+                                <a href="#" class="text-blue-500 hover:text-blue-600 font-medium inline-flex items-center">
+                                    Continue Learning <i class="ri-arrow-right-line ml-2"></i>
+                                </a>
+                            </div>
+                        </div>  
                     </div>
-                </div>
+                <?php endforeach; ?>
 
-                <!-- Course Card 3 -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
-                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">Digital Marketing</span>
-                        <h3 class="font-semibold text-lg mt-3 text-gray-800">Digital Marketing Mastery</h3>
-                        <p class="text-gray-600 mt-2 text-sm">Complete guide to modern digital marketing</p>
-                        <div class="mt-4">
-                            <a href="#" class="text-blue-500 hover:text-blue-600 font-medium inline-flex items-center">
-                                Continue Learning <i class="ri-arrow-right-line ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </main>
