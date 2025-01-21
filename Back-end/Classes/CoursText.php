@@ -32,14 +32,15 @@ class coursTexte extends Cours{
     }
     
     public function mettreAJour() {
-        $stmt = self::$pdo->prepare("UPDATE cours SET titre = :titre, description = :description, categorie_id = :categorie_id, 
-                enseignant_id = :enseignant_id, contenu = :contenu WHERE id = :id");
-        $stmt->execute([
+        $pdo = Database::getInstance()->getConnection();
+        $stmt =$pdo->prepare("UPDATE cours SET titre = :titre, description = :description, categorie_id = :categorie_id, 
+                image = :image, contenu = :contenu WHERE id = :id");
+        return $stmt->execute([
             'titre' => $this->titre,
             'description' => $this->description,
             'categorie_id' => $this->categorie_id,
-            'enseignant_id' => $this->enseignant_id,
-            'contenu' => $this->contenu,
+            'image' => $this->image,
+            'contenu' => $this->contenue,
             'id' => $this->id
         ]);
     }

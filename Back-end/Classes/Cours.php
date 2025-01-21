@@ -140,6 +140,17 @@ abstract class Cours  {
         $resultat = $stm->fetchColumn();
         return $resultat;
     }
+
+    // Le nombre totale des cours par categorie
+    public static function totalCoursCategorie(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT count(c.titre) as totalCours , ca.titre from cours c
+                            join categorie ca on ca.id = c.categorie_id
+                            group by ca.titre ");
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat ;
+    }
     
     
 
@@ -184,13 +195,18 @@ abstract class Cours  {
 
     public function addTagCours($tag_id) {
         $pdo = Database::getInstance()->getConnection();
-        $stmt = $pdo->prepare("INSERT INTO cours_tag (cours_id, tag_id) VALUES (:cours_id, :tag_id)");
-        $stmt->bindParam(':cours_id', $this->id);
-        $stmt->bindParam(':tag_id', $tag_id);
+        $stm = $pdo->prepare("INSERT INTO cours_tag (cours_id, tag_id) VALUES (:cours_id, :tag_id)");
+        $stm->bindParam(':cours_id', $this->id);
+        $stm->bindParam(':tag_id', $tag_id);
 
-        return $stmt->execute();
+        return $stm->execute();
     }
-
+    public function deleteTagCours(){
+        $pdo = Database::getInstance()->getConnection();
+        $stm = $pdo->prepare("DELETE from cours_tag where cours_id = :cours_id");
+        $stm->bindParam(':cours_id', $this->id);
+        return $stm->execute();
+    }
     public static function coursTags($idC){
         $pdo=Database::getInstance()->getConnection();
         $stm=$pdo->prepare("SELECT t.*  from cours_tag tc

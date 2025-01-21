@@ -1,7 +1,9 @@
 <?php
 require_once('../../Back-end/Classes/Tag.php');
+require_once('../../Back-end/Classes/Cours.php');
 
 $tags = Tag::afficherTags();
+$totalCoursCat=Cours::totalCoursCategorie();
 
 ?>
 <!DOCTYPE html>
@@ -124,6 +126,20 @@ $tags = Tag::afficherTags();
                     </div>
                 </div>
             </div>
+            <!-- Statistics by Category -->
+                    <div class="bg-white rounded-lg shadow-sm border border-blue-100 p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Total Courses by Category</h2>
+                        <div class="space-y-4">
+                            <?php foreach ($totalCoursCat as $category): ?>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-800"><?= htmlspecialchars($category['titre']) ?></p>
+                                        <p class="text-sm text-gray-500"><?= $category['totalCours'] ?> courses</p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
 
             <!-- Top Teachers -->
             <div class="bg-white rounded-lg shadow-sm border border-blue-100 p-6">
@@ -142,6 +158,7 @@ $tags = Tag::afficherTags();
                 </div>
             </div>
         </div>
+        
 
         <!-- Bulk Tags Management -->
         <div class="bg-white rounded-lg shadow-sm border border-blue-100 p-6">

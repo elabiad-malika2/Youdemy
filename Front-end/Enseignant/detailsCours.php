@@ -73,7 +73,7 @@ if (isset($_GET['idCours'])) {
                         <?= $cours->getDescription() ?>
                     </div>
                     <div class="mt-6 flex flex-wrap gap-2">
-                        <?php foreach ($tags as $tag): ?>
+                        <?php foreach ($tagsCours as $tag): ?>
                             <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                                 #<?= $tag->getTitre() ?>
                             </span>
@@ -160,8 +160,18 @@ if (isset($_GET['idCours'])) {
                 <div class="grid grid-cols-3 gap-4">
                     <?php foreach ($tags as $tag): ?>
                         <div class="flex items-center">
+                            <?php 
+                            $isChecked = false;
+                            foreach ($tagsCours as $tagC) {
+                                if ($tag->getId() == $tagC->getId()) {
+                                    $isChecked = true;
+                                    break;
+                                }
+                            }
+                            ?>
                             <input type="checkbox" name="tags[]" value="<?= $tag->getId() ?>" 
-                                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                                <?= $isChecked ? 'checked' : '' ?>>
                             <label for="tag-<?= $tag->getId() ?>" class="ml-2 text-sm text-gray-900">
                                 <?= htmlspecialchars($tag->getTitre()) ?>
                             </label>
