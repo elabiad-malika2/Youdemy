@@ -2,12 +2,15 @@
 require_once('../../Back-end/Classes/Categorie.php');
 require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Cours.php');
+require_once('../../Back-end/Classes/Inscription.php');
 session_start();
 $categorie=Categorie::afficherCategorie();
 
 $tags=Tag::afficherTags();
 $user=$_SESSION['id_logged'];
 $cours = Cours::afficherCoursProf($user);
+$studentIn = Inscription::nbrTotaleEtdInscrid($user);
+$totalStudent= Inscription::totalStudent($user);
 
 ?>
 
@@ -64,22 +67,14 @@ $cours = Cours::afficherCoursProf($user);
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm">Total Students</p>
-                        <h3 class="text-2xl font-bold text-gray-800">128</h3>
+                        <h3 class="text-2xl font-bold text-gray-800"><?= $totalStudent ?></h3>
                     </div>
                     <i class="ri-user-line text-2xl text-blue-400"></i>
                 </div>
             </div>
             
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm">Total Revenue</p>
-                        <h3 class="text-2xl font-bold text-gray-800">$2,450</h3>
-                    </div>
-                    <i class="ri-money-dollar-circle-line text-2xl text-blue-400"></i>
-                </div>
-            </div>
         </div>
+
 
         <!-- Courses Section -->
         <div class="mb-12">
@@ -90,6 +85,26 @@ $cours = Cours::afficherCoursProf($user);
                     <span>Add New Course</span>
                 </button>
             </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Statistiques des cours -->
+    <?php foreach ($studentIn as $courseStats): ?>
+        <div class="bg-white p-6 rounded-lg shadow-lg border border-blue-200 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-blue-600 text-sm font-semibold"><?= htmlspecialchars($courseStats['titre']); ?></p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 mt-2">
+                        <?= htmlspecialchars($courseStats['totalEtudiant']); ?> Students
+                    </h3>
+                    <p class="text-gray-500 text-sm mt-1">Students: <?= htmlspecialchars($courseStats['nomEtd']); ?></p>
+                </div>
+                <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
+                    <i class="ri-user-line text-3xl text-blue-500"></i>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Course Card -->
@@ -233,60 +248,7 @@ $cours = Cours::afficherCoursProf($user);
         </div>
     </div>
 
-        <!-- Students Section -->
-        <div>
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Enrolled Students</h2>
-                <div class="relative">
-                    <i class="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" placeholder="Search students..." 
-                           class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-400">
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-50 text-left">
-                            <tr>
-                                <th class="px-6 py-3 text-gray-500 font-medium">Student</th>
-                                <th class="px-6 py-3 text-gray-500 font-medium">Course</th>
-                                <th class="px-6 py-3 text-gray-500 font-medium">Progress</th>
-                                <th class="px-6 py-3 text-gray-500 font-medium">Enrolled Date</th>
-                                <th class="px-6 py-3 text-gray-500 font-medium">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3">
-                                        <img src="/api/placeholder/32/32" alt="Student" class="w-8 h-8 rounded-full">
-                                        <div>
-                                            <p class="font-medium text-gray-800">John Doe</p>
-                                            <p class="text-sm text-gray-500">john@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-gray-800">Master Web Development</td>
-                                <td class="px-6 py-4">
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-blue-400 h-2.5 rounded-full" style="width: 75%"></div>
-                                    </div>
-                                    <span class="text-sm text-gray-500">75%</span>
-                                </td>
-                                <td class="px-6 py-4 text-gray-800">Jan 15, 2024</td>
-                                <td class="px-6 py-4">
-                                    <button class="text-blue-400 hover:text-blue-500">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Add more student rows here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <script>
         function toggleModal(show) {

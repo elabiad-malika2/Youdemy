@@ -48,7 +48,7 @@ class Inscription {
         foreach ($resultat as $value) {
             if ($value['contenu_type']=='video') {
                 $data[] = new coursVideo($value['id'],$value['titre'],$value['description'],$value['categorie_id'],$value['image'],$value['enseignant_id'],$value['video_url'],$value['contenu_type']);
-               
+            
             }elseif ($value['contenu_type']=='texte') {
                 $data[]= new coursTexte($value['id'],$value['titre'],$value['description'],$value['categorie_id'],$value['image'],$value['enseignant_id'],$value['contenu'],$value['contenu_type']);
                 
@@ -56,6 +56,29 @@ class Inscription {
         }
         return $data ;
 
+    }
+    // Statistiques nbres des etudaints inscrits a un cours
+    public static function nbrTotaleEtdInscrid($idE){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT count(ce.id) as totalEtudiant , c.titre  , group_concat(u.fullName) as nomEtd from etudiant_cours ce
+                                join user u on u.id=ce.etudiant_id
+                                join cours c on c.id=ce.cours_id 
+                                where c.enseignant_id = :id
+                                GROUP BY c.titre ");
+        $stm->bindParam(":id",$idE,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetchAll(PDO::FETCH_ASSOC);
+        return $resultat ;
+    }
+    public static function totalStudent($idE){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("select count(ce.etudiant_id) as totalStudent from etudiant_cours ce
+                            join cours c on c.id = ce.cours_id
+                            where c.enseignant_id = :idE ");
+        $stm->bindParam(":idE",$idE,PDO::PARAM_INT);
+        $stm->execute();
+        $resultat=$stm->fetch(PDO::FETCH_ASSOC);
+        return $resultat["totalStudent"];
     }
 }
 

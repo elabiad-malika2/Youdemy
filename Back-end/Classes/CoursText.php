@@ -63,7 +63,7 @@ class coursTexte extends Cours{
     }
     
     public function setContenue($contenue) {
-        return $this->contenue;
+        $this->contenue=$contenue;
     }
 }
 ?>

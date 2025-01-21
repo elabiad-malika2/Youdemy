@@ -231,7 +231,7 @@ abstract class Cours  {
     }
 
     public function getIdCategorie() {
-        return $this->id_categorie;
+        return $this->categorie_id;
     }
 
     public function setIdCategorie($id_categorie) {
@@ -257,5 +257,7 @@ abstract class Cours  {
     public function setType($type) {
         $this->type = $type;
     }
+
+    
 }
 ?>

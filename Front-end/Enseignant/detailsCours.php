@@ -2,9 +2,11 @@
 
 require_once('../../Back-end/Classes/Cours.php');
 require_once('../../Back-end/Classes/Tag.php');
+require_once('../../Back-end/Classes/Categorie.php');
+
 
 $tags=Tag::afficherTags();
-
+$categorie=Categorie::afficherCategorie();
 
 if (isset($_GET['idCours'])) {
     $idC=$_GET['idCours'];
@@ -116,13 +118,13 @@ if (isset($_GET['idCours'])) {
                 </button>
             </div>
             
-            <form action="modifier_cours.php" method="POST" enctype="multipart/form-data" class="p-5 space-y-6">
+            <form action="../../Back-end/Actions/Cours/modifierCours.php" method="POST" enctype="multipart/form-data" class="p-5 space-y-6">
                 <input type="hidden" name="idCours" value="<?= $cours->getId() ?>">
                 
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900">Titre</label>
-                    <input type="text" name="titre" value="<?= htmlspecialchars($cours->getTitre()) ?>" 
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <input type="text" name="titre" value="<?= $cours->getTitre() ?>" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
                 <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900">Description</label>
@@ -132,17 +134,22 @@ if (isset($_GET['idCours'])) {
 
             <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900">Catégorie</label>
-                        <select name="categorie" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            <option value="1">Développement Web</option>
-                            <option value="2">Design</option>
-                            <option value="3">Marketing</option>
+                        <label for="courseCategorie" class="block text-sm font-medium text-gray-700">Categorie</label>
+                        <select 
+                            id="courseCategorie" 
+                            name="categorie" 
+                            class="block px-3 py-2 w-full mt-1 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <?php
+                            foreach ($categorie as $cat) {
+                                echo "<option value='" . $cat->getId() . "'" . ($cours->getIdCategorie() == $cat->getId() ? " selected" : "") . ">" . htmlspecialchars($cat->getTitre()) . "</option>";
+                            }
+                            ?>
                         </select>
                     </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">Type</label>
-                        <select name="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <select disabled name="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option value="video" <?= $cours->getType() == 'video' ? 'selected' : '' ?>>Vidéo</option>
                             <option value="text" <?= $cours->getType() == 'texte' ? 'selected' : '' ?>>Texte</option>
                         </select>
@@ -174,13 +181,23 @@ if (isset($_GET['idCours'])) {
                     <input type="file" name="image" accept="image/*" 
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
                 </div>
-
-                <div>
+                <?php if ($cours->getType()=='texte') :?>
+                    
+                    <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900">Contenu</label>
-                    <textarea name="contenu" rows="6" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
-                </div>
-
+                        <textarea name="contenu" rows="10"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <?= htmlspecialchars($cours->getContenue()) ?>
+                        </textarea>
+                    </div>
+                <?php endif ;?>
+                <?php if ($cours->getType()=='video') :?>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Upload Video</label>
+                        <input type="file" name="video"  
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    </div>
+                <?php endif ;?>
 
 
                 <div class="flex justify-end gap-4">
