@@ -2,9 +2,33 @@
 require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Cours.php');
 
+session_start();
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='admin' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 $tags = Tag::afficherTags();
 $totalCoursCat=Cours::totalCoursCategorie();
 
+if (isset($_SESSION['message'])) {
+        
+    $message = $_SESSION['message'];
+    $type = $_SESSION['message_type'] ?? 'success'; 
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                text: '$message',
+                icon: '$type',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>";
+    unset($_SESSION['message'], $_SESSION['message_type']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +37,7 @@ $totalCoursCat=Cours::totalCoursCategorie();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Youdemy</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -188,7 +213,7 @@ $totalCoursCat=Cours::totalCoursCategorie();
                 <?php
                     foreach ($tags as $tag) {
                         echo "<span class='px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center'>#{$tag->getTitre()}
-                                <button class='ml-2 text-blue-600 hover:text-blue-800'>×</button>
+                                <a href='../../Back-end/actions/Tag/Ajouter.php?id={$tag->getId()}' class='ml-2 text-blue-600 hover:text-blue-800'>×</a>
                             </span>";
                     }
                 ?>

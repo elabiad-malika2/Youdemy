@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     if ($resultat) {
         header('Location: ../../../Front-end/admin/cours.php');
     }
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']))
+{
+    $id = trim(htmlspecialchars($_GET['id']));
+    Categorie::supprimer($id);
+
+    header('Location: ../../../Front-end/admin/cours.php');
 }
 
 ?>

@@ -1,8 +1,16 @@
 <?php
 require_once('../../Back-end/Classes/Enseignant.php');
 
+session_start();
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='admin' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 $teachers=Enseignant::afficherTeacher();
-var_dump($teachers);
+
 
 ?>
 <!DOCTYPE html>

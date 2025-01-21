@@ -2,11 +2,31 @@
 require_once('../../Back-end/Classes/Inscription.php');
 session_start();
 $idE=$_SESSION['id_logged'];
+
 $mycourses = Inscription::getMyCourses($idE);
 
-if (!isset($_SESSION['id_logged'])) {
-    header('Location: ../');
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='etudiant' ) {
+    $idE=$_SESSION['id_logged'];
 
+} else {
+    header('Location: ../index.php');
+}
+
+if (isset($_SESSION['message'])) {
+        
+    $message = $_SESSION['message'];
+    $type = $_SESSION['message_type'] ?? 'success'; 
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                text: '$message',
+                icon: '$type',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>";
+    unset($_SESSION['message'], $_SESSION['message_type']);
 }
 ?>
 <!DOCTYPE html>
@@ -15,6 +35,7 @@ if (!isset($_SESSION['id_logged'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Courses - Youdemy</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -53,7 +74,7 @@ if (!isset($_SESSION['id_logged'])) {
                         <a href="./mesCours.php"
                             class="text-gray-900 hover:text-blue-500 transition-colors">Courses</a>
                         <a href=""
-                            class="text-gray-900 hover:text-blue-500 transition-colors">My Courses</a>
+                            class="text-gray-900 hover:text-blue-500 transition-colors <?php if (!isset($_SESSION["id_logged"])) echo "hidden"; ?> ">My Courses</a>
                         
                     </nav>
                     <div class="flex items-center space-x-4">

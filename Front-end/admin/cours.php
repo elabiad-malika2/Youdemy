@@ -1,6 +1,15 @@
 <?php
 require_once('../../Back-end/Classes/Categorie.php');
 require_once('../../Back-end/Classes/Cours.php');
+
+session_start();
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='admin' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 $categories=Categorie::afficherCategorie();
 $idC=null;
 if (isset($_GET['edit_id'])) {
@@ -208,9 +217,9 @@ $coursProf= Cours::afficherCoursProfs();
                                     <button onclick='window.location.href=\"?edit_id={$c->getId()}\"' class='p-2 text-blue-400 hover:text-blue-600'>
                                         <i class='ri-edit-line'></i>
                                     </button>
-                                    <button class='p-2 text-red-400 hover:text-red-600'>
+                                    <a href='../../Back-end/actions/Categorie/addCategorie.php?id={$c->getId()}' class='p-2 text-red-400 hover:text-red-600'>
                                         <i class='ri-delete-bin-line'></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>";
                     }

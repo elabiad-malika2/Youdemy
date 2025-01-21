@@ -11,6 +11,14 @@ class Inscription {
         $this->idCours=$idCours;
     }
 
+    public static function deleteInscriptionCours($idC){
+        $pdo = Database::getInstance()->getConnection();
+        $stm = $pdo->prepare("DELETE from etudiant_cours where cours_id = :cours_id");
+        $stm->bindParam(':cours_id', $idC);
+        return $stm->execute();
+    }
+    
+
     // Rejoindre Cours :
     public  function rejoindreCours(){
         $pdo = Database::getInstance()->getConnection();
@@ -25,6 +33,7 @@ class Inscription {
         }
 
     }
+
 
     // Check user if join :
     public  function checkCourseJoined(){

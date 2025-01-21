@@ -52,6 +52,13 @@ class Tag{
             return $data ;
         }
     }
+    public static function supprimer($id) {
+        $pdo = Database::getInstance()->getConnection();
+        $stm = $pdo->prepare("DELETE FROM Tag WHERE id = :id");
+        $stm->bindParam(':id', $id);
+    
+        return $stm->execute();
+    }
 }
 
 ?>

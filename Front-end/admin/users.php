@@ -4,6 +4,14 @@ require_once ("../../Back-end/classes/Enseignant.php");
 require_once("../../Back-end/classes/Etudiant.php");
 $users = User::afficherUsers();
 
+// session_start();
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='admin' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,9 +117,7 @@ $users = User::afficherUsers();
                                                 <i class="ri-pause-circle-line text-lg"></i>
                                             </a>
                                         <?php endif; ?>
-                                        <button class="p-2 text-red-400 hover:text-red-600" title="Delete">
-                                            <i class="ri-delete-bin-line text-lg"></i>
-                                        </button>
+                                        
                                     </div>
                                 </td>
                             </tr>

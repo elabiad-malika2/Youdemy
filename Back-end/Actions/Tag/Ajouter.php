@@ -13,5 +13,10 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         }
 
     }
+}else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']))
+{
+    $id = trim(htmlspecialchars($_GET['id']));
+    Tag::supprimer($id);
+    header('Location: ../../../Front-end/admin/index.php');
 }
 ?>

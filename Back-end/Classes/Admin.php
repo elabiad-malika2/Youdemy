@@ -38,6 +38,13 @@ class Admin extends User{
             false;
         }
     }
+    public static function supprimer($id){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("DELETE from user where id=:id");
+        $stm->bindParam(":id",$id,PDO::PARAM_INT);
+        return $stm->execute();
+        
+    }
     
 }
 

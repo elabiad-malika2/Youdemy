@@ -168,8 +168,8 @@ abstract class Cours  {
         return $stmt->execute();
     }
 
-    public function supprimer($id) {
-        try {
+    public static function supprimer($id) {
+
             $db = Database::getInstance()->getConnection();
             $stmt = $db->prepare("DELETE FROM Cours WHERE id = :id");
             $stmt->bindParam(':id', $id);
@@ -179,9 +179,19 @@ abstract class Cours  {
             } else {
                 return false;
             }
-        } catch (Exception $e) {
-            return "Error Deleting Course: " . $e->getMessage();
-        }
+        
+    }
+
+    public static function maxEtdCours(){
+        $pdo=Database::getInstance()->getConnection();
+        $stm=$pdo->prepare("SELECT count(ca.etudiant_id) as totalE , c.titre from etudiant_cours ca
+                            join cours c on c.id=ca.cours_id 
+                            GROUP BY c.titre
+                            ORDER BY totalE DESC
+                            LIMIT 1");
+        $stm->execute();
+        $result=$stm->fetch(PDO::FETCH_ASSOC);
+        return $result ;
     }
 
     public function addEtudiant($etudiant_id) {
@@ -201,10 +211,10 @@ abstract class Cours  {
 
         return $stm->execute();
     }
-    public function deleteTagCours(){
+    public static function deleteTagCours($idC){
         $pdo = Database::getInstance()->getConnection();
         $stm = $pdo->prepare("DELETE from cours_tag where cours_id = :cours_id");
-        $stm->bindParam(':cours_id', $this->id);
+        $stm->bindParam(':cours_id', $idC);
         return $stm->execute();
     }
     public static function coursTags($idC){
@@ -225,6 +235,7 @@ abstract class Cours  {
         return $data ;
         
     }
+
 
     public function getId() {
         return $this->id;

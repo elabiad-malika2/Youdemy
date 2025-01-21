@@ -1,5 +1,7 @@
 <?php
 require_once('../Back-end/Classes/Cours.php');
+require_once('../Back-end/Classes/Categorie.php');
+$categorie=Categorie::afficherCategorie();
 session_start();
 // Paramètres de recherche et pagination
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -11,6 +13,23 @@ $cours = Cours::afficherTous($search, $page, $limit);
 // Calculer le nombre total de pages
 $totalCount = Cours::afficherTotalsomme($search);
 $totalPages = ceil($totalCount / $limit);
+
+if (isset($_SESSION['message'])) {
+        
+    $message = $_SESSION['message'];
+    $type = $_SESSION['message_type'] ?? 'success'; 
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                text: '$message',
+                icon: '$type',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>";
+    unset($_SESSION['message'], $_SESSION['message_type']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +39,7 @@ $totalPages = ceil($totalCount / $limit);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Youdemy Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.svg">
@@ -68,7 +88,7 @@ $totalPages = ceil($totalCount / $limit);
                         <a href="./Etudiant/mesCours.php"
                             class="text-gray-900 hover:text-blue-500 transition-colors">Courses</a>
                         <a href="./Etudiant/mesCours.php"
-                            class="text-gray-900 hover:text-blue-500 transition-colors">My Courses</a>
+                            class="text-gray-900 hover:text-blue-500 transition-colors <?php if (!isset($_SESSION["id_logged"])) echo "hidden"; ?>">My Courses</a>
                         
                     </nav>
                     <div class="flex items-center space-x-4">
@@ -177,100 +197,35 @@ $totalPages = ceil($totalCount / $limit);
 
     <!-- Courses Categories Section  -->
     <section class="py-16 px-4 bg-white">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">
-                    Explore Top Courses
-                    <span
-                        class="bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text text-transparent">Categories</span>
-                </h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Find the perfect course to enhance your skills and advance your career. Choose from our wide range
-                    of professional courses designed by industry experts.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-palette-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Art Illustration</h3>
-                            <p class="text-gray-500 text-sm">2 Courses</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-computer-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Digital Marketing</h3>
-                            <p class="text-gray-500 text-sm">2 Courses</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-pen-nib-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Graphic Design</h3>
-                            <p class="text-gray-500 text-sm">1 Course</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-robot-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Robotics</h3>
-                            <p class="text-gray-500 text-sm">1 Course</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-layout-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Web Designing</h3>
-                            <p class="text-gray-500 text-sm">1 Course</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-code-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Web Development</h3>
-                            <p class="text-gray-500 text-sm">1 Course</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4">
+                Explore Top Courses
+                <span class="bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text text-transparent">Categories</span>
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Find the perfect course to enhance your skills and advance your career. Choose from our wide range of professional courses designed by industry experts.
+            </p>
         </div>
-    </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <?php foreach ($categorie as $cat): ?>
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-blue-400 text-white rounded-lg">
+                            <i class="ri-folder-line text-2xl"></i> 
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg"><?php echo htmlspecialchars($cat->getTitre()); ?></h3>
+                            <p class="text-gray-500 text-sm"><?php echo htmlspecialchars($cat->getDescription()); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
 
 
     <!-- Courses Grid Section -->
@@ -296,11 +251,7 @@ $totalPages = ceil($totalCount / $limit);
                         <div class="bg-white border border-blue-400 rounded-lg shadow-md p-4 hover:scale-105 transition-transform">
                             <img src="./<?= $c->getImage()?>" alt="Course Image" class="rounded-t-lg w-full">
                             <div class="py-3">
-                                <p class="text-sm text-gray-500 flex items-center space-x-2">
-                                    <span><i class="ri-calendar-line"></i> 20 Nov, 2023</span>
-                                    <span><i class="ri-file-list-line"></i> 3 Curriculum</span>
-                                    <span><i class="ri-group-line"></i> 5 Students</span>
-                                </p>
+                                
                                 <h3 class="text-lg font-semibold text-gray-800 mt-2"><?= $c->getTitre()?></h3>
                                 <p class="text-gray-600 text-sm mt-1">
                                     <?= $c->getDescription()?>

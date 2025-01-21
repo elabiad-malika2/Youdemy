@@ -3,7 +3,7 @@ require_once __DIR__.'/../../Classes/Enseignant.php';
 require_once __DIR__.'/../../Classes/User.php';
 require_once __DIR__.'/../../Classes/Etudiant.php';
 require_once __DIR__.'/../../Classes/Admin.php';
-
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['nameLogin'])) {
@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     
         $user = User::login($email, $password);
-        print_r($user);
         if ($user === false) {
             $_SESSION['message'] = "Invalid email or password";
             $_SESSION['message_type'] = "error";
@@ -54,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['message'] = "Compte pas encore activé";
                         $_SESSION['message_type'] = "error";
                         User::logout();
-                        echo "Compte pas encore activé";
+                        header('Location: ../../../Front-end/login.php');
                         
                     }
                 }

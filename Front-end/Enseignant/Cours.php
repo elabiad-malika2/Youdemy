@@ -4,9 +4,11 @@ require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Cours.php');
 require_once('../../Back-end/Classes/Inscription.php');
 session_start();
-if (!isset($_SESSION['id_logged'])) {
-    header('Location: ../');
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='enseignant' ) {
+    $idE=$_SESSION['id_logged'];
 
+} else {
+    header('Location: ../index.php');
 }
 $categorie=Categorie::afficherCategorie();
 $tags=Tag::afficherTags();
@@ -15,6 +17,22 @@ $cours = Cours::afficherCoursProf($user);
 $studentIn = Inscription::nbrTotaleEtdInscrid($user);
 $totalStudent= Inscription::totalStudent($user);
 
+if (isset($_SESSION['message'])) {
+        
+    $message = $_SESSION['message'];
+    $type = $_SESSION['message_type'] ?? 'success'; 
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                text: '$message',
+                icon: '$type',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>";
+    unset($_SESSION['message'], $_SESSION['message_type']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +42,7 @@ $totalStudent= Inscription::totalStudent($user);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard - Youdemy</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>

@@ -5,6 +5,14 @@ require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Categorie.php');
 
 session_start();
+
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='enseignant' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 $tags=Tag::afficherTags();
 $categorie=Categorie::afficherCategorie();
 
@@ -39,7 +47,7 @@ if (!isset($_SESSION['id_logged'])) {
                 <i class="ri-edit-line mr-2"></i>
                 Modifier
             </button>
-            <button onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce cours?')) window.location.href='supprimer_cours.php?id=<?= $cours->getId() ?>'" 
+            <button onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce cours?')) window.location.href='../../Back-end/Actions/Cours/supprimerCours.php?id=<?= $cours->getId() ?>'" 
                     class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center">
                 <i class="ri-delete-bin-line mr-2"></i>
                 Supprimer

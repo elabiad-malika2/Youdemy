@@ -3,6 +3,14 @@
 require_once('../../Back-end/Classes/Cours.php');
 require_once('../../Back-end/Classes/Inscription.php');
 session_start();
+
+if (isset($_SESSION['id_logged']) && $_SESSION['role']=='etudiant' ) {
+    $idE=$_SESSION['id_logged'];
+
+} else {
+    header('Location: ../index.php');
+}
+
 if (isset($_GET['idCours'])) {
     $idC=(int)$_GET['idCours'];
     $cours = Cours::afficherCoursId($idC);

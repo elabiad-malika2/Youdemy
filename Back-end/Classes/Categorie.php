@@ -84,7 +84,13 @@ class Categorie {
             return false ;
         }
     }
-
+    public static function supprimer($id) {
+        $pdo = Database::getInstance()->getConnection();
+        $stm = $pdo->prepare("DELETE FROM Categorie WHERE id = :id");
+        $stm->bindParam(':id', $id);
+    
+        return $stm->execute();
+    }
 }
 
 ?>

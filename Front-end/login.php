@@ -5,6 +5,23 @@ if(isset($_SESSION['id_logged']))
 {
     header('Location: index.php');
 }
+
+if (isset($_SESSION['message'])) {
+        
+    $message = $_SESSION['message'];
+    $type = $_SESSION['message_type'] ?? 'success'; 
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                text: '$message',
+                icon: '$type',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        });
+    </script>";
+    unset($_SESSION['message'], $_SESSION['message_type']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +32,7 @@ if(isset($_SESSION['id_logged']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Youdemy Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="../assets/scripts/app.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">

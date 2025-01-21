@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"]=="POST") {
         }
     }
     $resultat=$cours->mettreAJour();
-    $cours->deleteTagCours();
+    Cours::deleteTagCours($id);
     foreach ($tags as $t) {
         $cours->addTagCours($t);
     }var_dump($resultat);

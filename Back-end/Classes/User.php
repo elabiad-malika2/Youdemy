@@ -92,9 +92,9 @@ class User {
         return  'id : '. $this->id.' '.'nom :'. $this->nom.' ' .'role : '.$this->role; 
     }
     public static function logout(){
-        unset($_SESSION['id']);
+        unset($_SESSION['id_logged']);
         unset($_SESSION['role']);
-        session_destroy();
+        // session_destroy();
         return true ;
     }
     public static function afficherUsers(){
