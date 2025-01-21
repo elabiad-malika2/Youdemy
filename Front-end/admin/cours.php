@@ -28,15 +28,15 @@ $coursProf= Cours::afficherCoursProfs();
         <div class="p-4">
             <img src="/api/placeholder/150/50" alt="Youdemy Logo" class="mb-8">
             <nav class="space-y-2">
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./index.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-dashboard-line text-lg"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./teacher.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-user-follow-line text-lg"></i>
                     <span>Teacher Validation</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./users.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-user-settings-line text-lg"></i>
                     <span>User Management</span>
                 </a>
@@ -44,9 +44,12 @@ $coursProf= Cours::afficherCoursProfs();
                     <i class="ri-book-open-line text-lg"></i>
                     <span>Courses & Categories</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./tags.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-price-tag-3-line text-lg"></i>
                     <span>Tags Management</span>
+                </a>
+                <a href="../../Back-end/Actions/Auth/auth.php?logout=" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <span>Logout</span>
                 </a>
             </nav>
         </div>

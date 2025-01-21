@@ -78,7 +78,7 @@ class User {
                 $_SESSION['role'] = $etudiant->getRole();
                 return $etudiant;
             } elseif ($user['role'] == 'admin') {
-                $admin = new Admin($user['id'], $user['fullName'], $user['role']);
+                $admin = new Admin($user['id'], $user['fullName'],$user['email'],null, $user['role']);
                 $_SESSION['id_logged'] = $admin->getId();
                 $_SESSION['role'] = $admin->getRole();
                 return $admin;

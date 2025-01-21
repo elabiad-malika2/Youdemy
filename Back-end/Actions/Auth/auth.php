@@ -2,6 +2,7 @@
 require_once __DIR__.'/../../Classes/Enseignant.php';
 require_once __DIR__.'/../../Classes/User.php';
 require_once __DIR__.'/../../Classes/Etudiant.php';
+require_once __DIR__.'/../../Classes/Admin.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if ($res) {
                         $_SESSION['message'] = "Welcome back " . $user->getNom();
                         $_SESSION['message_type'] = "success";
-                        header('Location: ../../../Front-end/index.php');
+                        header('Location: ../../../Front-end/Enseignant/cours.php');
                     } else {
                         $_SESSION['message'] = "Compte pas encore activé";
                         $_SESSION['message_type'] = "error";
@@ -57,6 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         
                     }
                 }
+            } else if ($role === 'admin') {
+              
+                    $_SESSION['message'] = "Welcome back " . $user->getNom();
+                    $_SESSION['message_type'] = "success";
+                    header('Location: ../../../Front-end/admin/index.php');
+                
             }
         }
         exit;
@@ -96,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else if ($_SERVER['REQUEST_METHOD']=="GET" && isset($_GET['logout']))
 {   
     User::logout();
-    header('Location: ../../../public/login.php');
+    header('Location: ../../../Front-end/login.php');
 }else {
     echo "Invalid request method";
 }

@@ -4,8 +4,11 @@ require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Cours.php');
 require_once('../../Back-end/Classes/Inscription.php');
 session_start();
-$categorie=Categorie::afficherCategorie();
+if (!isset($_SESSION['id_logged'])) {
+    header('Location: ../');
 
+}
+$categorie=Categorie::afficherCategorie();
 $tags=Tag::afficherTags();
 $user=$_SESSION['id_logged'];
 $cours = Cours::afficherCoursProf($user);
@@ -28,22 +31,90 @@ $totalStudent= Inscription::totalStudent($user);
 <body class="bg-gray-50">
     <!-- Header -->
     <header class="bg-white border-b">
+    <div class=" flex flex-col">
+
+<div class="hidden md:block w-full bg-blue-500 text-white">
+    <div class="container mx-auto px-4 py-2">
+        <div class="flex justify-between items-center text-sm">
+            <div class="flex items-center space-x-6">
+                <span class="flex items-center">
+                    <i class="ri-phone-line mr-2"></i> +212 772508881
+                </span>
+                <span class="flex items-center">
+                    <i class="ri-mail-line mr-2"></i> contact@youdemy.com
+                </span>
+            </div>
+            <span class="flex items-center">
+                <i class="ri-map-pin-line mr-2"></i> Massira N641 Safi, Morocco
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="border-b bg-white ">
+    <div class="container mx-auto px-4 ">
+        <div class="flex items-center justify-between py-4">
+            <a href="./index.php">
+                <img src="../assets/images/Youdemy_Logo.svg" alt="Youdemy Platform">
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="./index.php" class="text-blue-400 font-bold hover:text-blue-500 transition-colors">Home</a>
+        
+                
+            </nav>
+            <div class="flex items-center space-x-4">
+            <?php if (!isset($_SESSION['id_logged'])): ?>
+                        <button
+                            class="p-2 hidden md:block px-4 bg-blue-400 text-white rounded-full hover:bg-white hover:text-blue-400 hover:border hover:border-blue-400 transition-colors">
+                            <a href="./login.php">Login</a>
+                        </button>
+                        <button
+                            class="p-2 hidden md:block px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
+                            <a href="./register.php">Register</a>
+                        </button>
+                        
+                    
+                    <?php else :?>
+                    <button
+                            class="p-2 hidden md:block px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
+                            <a href="../../Back-end/Actions/Auth/auth.php?logout=">Logout</a>
+                        </button>
+                    <?php endif ; ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu Mobile -->
+    <div id="sidebar-menu" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 hidden">
+        <div class="fixed top-0 left-0 w-64 bg-white pt-2 h-full shadow-lg">
+            <div class="flex justify-end items-center px-4">
+                <button id="close-sidebar" class="text-gray-700 hover:text-blue-500">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4 px-4 py-6">
+                <a href="./index.php"
+                    class="text-gray-700 hover:text-blue-500 font-bold transition-colors">Home</a>
+                <div class="flex flex-col space-y-4 mt-6">
+                    <button
+                        class="p-2 px-4 bg-blue-400 text-white rounded-full hover:bg-white hover:text-blue-400 hover:border hover:border-blue-400 transition-colors">
+                        <a href="./login.php">Login</a>
+                    </button>
+                    <button
+                        class="p-2 px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
+                        <a href="./register.php">Register</a>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+</div>
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <a href="./index.php">
-                        <img src="/api/placeholder/150/50" alt="Youdemy Logo">
-                    </a>
+                <div class="flex items-center justify-center space-x-4">
                     <h1 class="text-2xl font-bold text-gray-800">Teacher Dashboard</h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button class="p-2 text-gray-600 hover:text-blue-500">
-                        <i class="ri-notification-3-line text-xl"></i>
-                    </button>
-                    <div class="flex items-center space-x-2">
-                        <img src="/api/placeholder/32/32" alt="Profile" class="w-8 h-8 rounded-full">
-                        <span class="text-gray-700">John Teacher</span>
-                    </div>
                 </div>
             </div>
         </div>

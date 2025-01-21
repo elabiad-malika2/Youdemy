@@ -1,5 +1,6 @@
 <?php
 require_once('../Back-end/Classes/Cours.php');
+session_start();
 // Paramètres de recherche et pagination
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -64,28 +65,34 @@ $totalPages = ceil($totalCount / $limit);
                     </a>
                     <nav class="hidden md:flex items-center space-x-6">
                         <a href="./index.php" class="text-blue-400 font-bold hover:text-blue-500 transition-colors">Home</a>
-                        <a href="./pages/courses.php"
+                        <a href="./Etudiant/mesCours.php"
                             class="text-gray-900 hover:text-blue-500 transition-colors">Courses</a>
-                        <a href="./pages/pricing.php"
-                            class="text-gray-900 hover:text-blue-500 transition-colors">Pricing</a>
-                        <a href="./pages/features.php"
-                            class="text-gray-900 hover:text-blue-500 transition-colors">Features</a>
-                        <a href="./blog.php" class="text-gray-900 hover:text-blue-500 transition-colors">Blog</a>
-                        <a href="./pages/contact.php" class="text-gray-900 hover:text-blue-500 transition-colors">Help
-                            Center</a>
+                        <a href="./Etudiant/mesCours.php"
+                            class="text-gray-900 hover:text-blue-500 transition-colors">My Courses</a>
+                        
                     </nav>
                     <div class="flex items-center space-x-4">
+                            <?php if (!isset($_SESSION['id_logged'])): ?>
                         <button
                             class="p-2 hidden md:block px-4 bg-blue-400 text-white rounded-full hover:bg-white hover:text-blue-400 hover:border hover:border-blue-400 transition-colors">
-                            <a href="./pages/login.php">Login</a>
+                            <a href="./login.php">Login</a>
                         </button>
                         <button
                             class="p-2 hidden md:block px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
-                            <a href="./pages/register.php">Register</a>
+                            <a href="./register.php">Register</a>
                         </button>
+                        
+                    
+                    <?php else :?>
+                    <button
+                            class="p-2 hidden md:block px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
+                            <a href="../Back-end/Actions/Auth/auth.php?logout=">Logout</a>
+                        </button>
+                    <?php endif ; ?>
                         <button id="mobile-menu-btn" class="p-2 hover:text-blue-500 transition-colors md:hidden">
                             <i class="ri-menu-4-fill text-2xl"></i>
                         </button>
+
                     </div>
                 </div>
             </div>
@@ -111,14 +118,20 @@ $totalPages = ceil($totalCount / $limit);
                         <a href="./contact.php" class="text-gray-700 hover:text-blue-500 transition-colors">Help
                             Center</a>
                         <div class="flex flex-col space-y-4 mt-6">
+                        <?php if (!isset($_SESSION['id_logged'])): ?>
                             <button
-                                class="p-2 px-4 bg-blue-400 text-white rounded-full hover:bg-white hover:text-blue-400 hover:border hover:border-blue-400 transition-colors">
-                                <a href="./login.php">Login</a>
+                                class="p-2 hidden md:block px-4 bg-blue-400 text-white rounded-full hover:bg-white hover:text-blue-400 hover:border hover:border-blue-400 transition-colors">
+                                <a href="./pages/login.php">Login</a>
                             </button>
                             <button
-                                class="p-2 px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
-                                <a href="./register.php">Register</a>
+                                class="p-2 hidden md:block px-4 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-400 hover:text-white transition-colors">
+                                <a href="./pages/register.php">Register</a>
                             </button>
+                            
+                        <?php endif ; ?>
+                        <button id="mobile-menu-btn" class="p-2 hover:text-blue-500 transition-colors md:hidden">
+                                <i class="ri-menu-4-fill text-2xl"></i>
+                        </button>
                         </div>
                     </nav>
                 </div>

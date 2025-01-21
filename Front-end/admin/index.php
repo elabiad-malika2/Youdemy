@@ -27,21 +27,24 @@ $totalCoursCat=Cours::totalCoursCategorie();
                     <i class="ri-dashboard-line text-lg"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./teacher.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-user-follow-line text-lg"></i>
                     <span>Teacher Validation</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./users.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-user-settings-line text-lg"></i>
                     <span>User Management</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                <a href="./cours.php" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-book-open-line text-lg"></i>
                     <span>Courses & Categories</span>
                 </a>
                 <a href="#" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
                     <i class="ri-price-tag-3-line text-lg"></i>
                     <span>Tags Management</span>
+                </a>
+                <a href="../../Back-end/Actions/Auth/auth.php?logout=" class="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+                    <span>Logout</span>
                 </a>
             </nav>
         </div>

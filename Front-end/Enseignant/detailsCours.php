@@ -4,7 +4,7 @@ require_once('../../Back-end/Classes/Cours.php');
 require_once('../../Back-end/Classes/Tag.php');
 require_once('../../Back-end/Classes/Categorie.php');
 
-
+session_start();
 $tags=Tag::afficherTags();
 $categorie=Categorie::afficherCategorie();
 
@@ -14,6 +14,10 @@ if (isset($_GET['idCours'])) {
     $tagsCours = Cours::coursTags($idC);
 }
 
+if (!isset($_SESSION['id_logged'])) {
+    header('Location: ../');
+
+}
 ?>
 
 <!DOCTYPE html>

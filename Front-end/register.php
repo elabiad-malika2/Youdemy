@@ -1,3 +1,11 @@
+<?php 
+session_start();
+if(isset($_SESSION['id_logged']))
+{
+    header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +18,6 @@
     <script src="../assets/scripts/register.js" defer></script>
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.svg">
 </head>
-
 
 <body>
     <style>
