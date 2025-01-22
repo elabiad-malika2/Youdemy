@@ -75,7 +75,6 @@ abstract class Cours  {
         
     }
     public static function afficherTous($search='',$page=1,$limit=6){
-
             $pdo = Database::getInstance()->getConnection();
             $offset=($page - 1)*$limit;
 
