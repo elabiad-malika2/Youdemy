@@ -79,7 +79,9 @@ abstract class Cours  {
             $pdo = Database::getInstance()->getConnection();
             $offset=($page - 1)*$limit;
 
-            $stm = $pdo->prepare("SELECT * FROM Cours where titre LIKE :search or description LIKE :search LIMIT :limit OFFSET :offset");
+            $stm = $pdo->prepare("SELECT * FROM Cours 
+                                where (titre LIKE :search or description LIKE :search) and status='Accepte'
+                                LIMIT :limit OFFSET :offset");
             $serachT="%$search%";
             $stm->bindParam(':search',$serachT,PDO::PARAM_STR);
             $stm->bindParam(':limit',$limit,PDO::PARAM_INT);

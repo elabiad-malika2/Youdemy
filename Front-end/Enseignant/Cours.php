@@ -143,15 +143,7 @@ if (isset($_SESSION['message'])) {
     <div class="container mx-auto px-6 py-8">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-500 text-sm">Total Courses</p>
-                        <h3 class="text-2xl font-bold text-gray-800">6</h3>
-                    </div>
-                    <i class="ri-book-open-line text-2xl text-blue-400"></i>
-                </div>
-            </div>
+            
             
             <div class="bg-white p-6 rounded-lg shadow-sm border border-blue-100">
                 <div class="flex items-center justify-between">

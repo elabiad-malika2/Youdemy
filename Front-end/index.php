@@ -197,96 +197,89 @@ if (isset($_SESSION['message'])) {
 
     <!-- Courses Categories Section  -->
     <section class="py-16 px-4 bg-white">
-    <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold mb-4">
-                Explore Top Courses
-                <span class="bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text text-transparent">Categories</span>
-            </h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">
-                Find the perfect course to enhance your skills and advance your career. Choose from our wide range of professional courses designed by industry experts.
-            </p>
-        </div>
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">
+                    Explore Top Courses
+                    <span class="bg-gradient-to-r from-blue-600 to-blue-300 bg-clip-text text-transparent">Categories</span>
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Find the perfect course to enhance your skills and advance your career. Choose from our wide range of professional courses designed by industry experts.
+                </p>
+            </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <?php foreach ($categorie as $cat): ?>
-                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-blue-400 text-white rounded-lg">
-                            <i class="ri-folder-line text-2xl"></i> 
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg"><?php echo htmlspecialchars($cat->getTitre()); ?></h3>
-                            <p class="text-gray-500 text-sm"><?php echo htmlspecialchars($cat->getDescription()); ?></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <?php foreach ($categorie as $cat): ?>
+                    <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 hover:border-blue-400 hover:scale-105 transition-transform duration-300">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-blue-400 text-white rounded-lg">
+                                <i class="ri-folder-line text-2xl"></i> 
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-lg"><?php echo htmlspecialchars($cat->getTitre()); ?></h3>
+                                <p class="text-gray-500 text-sm"><?php echo htmlspecialchars($cat->getDescription()); ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
     <!-- Courses Grid Section -->
 
     <section>
-        <div class=" py-10 md:px-12 px-6">
-            <h2 class="text-4xl font-bold text-gray-800 mb-6 text-center md:mb-11">
-                Our Popular <span
-                    class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Courses</span>
-            </h2>
-            <form method="GET" class="mb-6">
-                <input 
-                    type="text" 
-                    name="search" 
-                    class="w-full p-3 rounded-lg border border-gray-300" 
-                    placeholder="Search for courses..."
-                    value="<?= htmlspecialchars($search) ?>"
-                />
-            </form>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php foreach ($cours as $c):?>
-                    <a href="./Etudiant/detailsCours.php?idCours=<?= $c->getId()?>">
-                        <div class="bg-white border border-blue-400 rounded-lg shadow-md p-4 hover:scale-105 transition-transform">
-                            <img src="./<?= $c->getImage()?>" alt="Course Image" class="rounded-t-lg w-full">
-                            <div class="py-3">
-                                
-                                <h3 class="text-lg font-semibold text-gray-800 mt-2"><?= $c->getTitre()?></h3>
-                                <p class="text-gray-600 text-sm mt-1">
-                                    <?= $c->getDescription()?>
-                                </p>
-                                <div class="flex items-center justify-between mt-3">
-                                    <p class="text-blue-400 font-bold">$49</p>
-                                    <p class="text-blue-400 flex items-center"><i class="ri-star-fill"></i> 4.8</p>
-                                </div>
+    <div class="py-10 md:px-12 px-6">
+        <h2 class="text-4xl font-bold text-gray-800 mb-6 text-center md:mb-11">
+            Our Popular <span
+                class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Courses</span>
+        </h2>
+        <form method="GET" class="mb-6">
+            <input 
+                type="text" 
+                name="search" 
+                class="w-full p-3 rounded-lg border border-gray-300" 
+                placeholder="Search for courses..."
+                value="<?= htmlspecialchars($search) ?>"
+            />
+        </form>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <?php foreach ($cours as $c): ?>
+                <a href="./Etudiant/detailsCours.php?idCours=<?= $c->getId() ?>">
+                    <div class="bg-white border border-blue-400 rounded-lg shadow-md p-4 hover:scale-105 transition-transform min-h-[400px] flex flex-col">
+                        <img src="./<?= $c->getImage() ?>" alt="Course Image" class="rounded-t-lg w-full">
+                        <div class="py-3 flex-grow">
+                            <h3 class="text-lg font-semibold text-gray-800 mt-2"><?= $c->getTitre() ?></h3>
+                            <p class="text-gray-600 text-sm mt-1 line-clamp-3">
+                                <?= $c->getDescription() ?>
+                            </p>
+                            <div class="flex items-center justify-between mt-3">
+                                <p class="text-blue-400 font-bold">$49</p>
+                                <p class="text-blue-400 flex items-center"><i class="ri-star-fill"></i> 4.8</p>
                             </div>
                         </div>
-                    </a>
-                <?php endforeach ; ?>
-                <div class="flex justify-center mt-6">
-                    <nav class="flex space-x-4">
-                        
-                        <?php if ($page > 1): ?>
-                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page - 1 ?>" class="text-blue-600 hover:text-blue-800">&laquo; Previous</a>
-                        <?php endif; ?>
-
-                        <!-- Numéros de page -->
-                        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $i ?>" class="text-blue-600 hover:text-blue-800"><?= $i ?></a>
-                        <?php endfor; ?>
-
-                        <!-- Page suivante -->
-                        <?php if ($page < $totalPages): ?>
-                            <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page + 1 ?>" class="text-blue-600 hover:text-blue-800">Next &raquo;</a>
-                        <?php endif; ?>
-                    </nav>
-                </div>
-
-            </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         </div>
+        <div class="flex justify-center mt-6">
+            <nav class="flex space-x-4">
+                <?php if ($page > 1): ?>
+                    <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page - 1 ?>" class="text-blue-600 hover:text-blue-800">&laquo; Previous</a>
+                <?php endif; ?>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $i ?>" class="text-blue-600 hover:text-blue-800"><?= $i ?></a>
+                <?php endfor; ?>
+                <?php if ($page < $totalPages): ?>
+                    <a href="?search=<?= htmlspecialchars($search) ?>&page=<?= $page + 1 ?>" class="text-blue-600 hover:text-blue-800">Next &raquo;</a>
+                <?php endif; ?>
+            </nav>
+        </div>
+    </div>
+</section>
 
-    </section>
 
     <!-- FAQs Section -->
     <section>

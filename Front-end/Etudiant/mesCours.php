@@ -176,11 +176,7 @@ if (isset($_SESSION['message'])) {
                             <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $value->getTitre() ?></span>
                             <h3 class="font-semibold text-lg mt-3 text-gray-800"><?= $value->getTitre() ?></h3>
                             <p class="text-gray-600 mt-2 text-sm"><?= $value->getDescription() ?></p>
-                            <div class="mt-4">
-                                <a href="#" class="text-blue-500 hover:text-blue-600 font-medium inline-flex items-center">
-                                    Continue Learning <i class="ri-arrow-right-line ml-2"></i>
-                                </a>
-                            </div>
+                           
                         </div>  
                     </div>
                 <?php endforeach; ?>
